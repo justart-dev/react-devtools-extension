@@ -6,7 +6,7 @@
   --accent-primary: #8b5cf6;
   --border-color: rgba(255, 255, 255, 0.1);
   --glass-bg: rgba(30, 41, 59, 0.7);
-  
+
   --console-log: #e2e8f0;
   --console-info: #60a5fa;
   --console-warn: #fbbf24;
@@ -17,13 +17,15 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   width: 450px;
   /* height: 700px; */
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  overflow: hidden; /* 스크롤이 필요하면 auto로 변경 */
+  overflow: hidden;
+  /* 스크롤이 필요하면 auto로 변경 */
 }
 
 .app-container {
@@ -40,7 +42,8 @@ html, body, #root {
   gap: 16px;
   border-bottom: 1px solid var(--border-color);
   background: var(--bg-secondary);
-  flex-shrink: 0; /* 네비게이션 크기 고정 */
+  flex-shrink: 0;
+  /* 네비게이션 크기 고정 */
   z-index: 10;
 }
 
@@ -60,7 +63,7 @@ html, body, #root {
 }
 
 .nav-item:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
 }
 
@@ -74,7 +77,8 @@ html, body, #root {
   flex: 1;
   overflow: hidden;
   position: relative;
-  display: flex; /* 자식 요소가 flex-1을 가질 수 있게 함 */
+  display: flex;
+  /* 자식 요소가 flex-1을 가질 수 있게 함 */
   flex-direction: column;
 }
 
@@ -86,14 +90,22 @@ html, body, #root {
 
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out;
-  height: 100%; /* 부모 높이 채우기 */
+  height: 100%;
+  /* 부모 높이 채우기 */
   display: flex;
   flex-direction: column;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Scrollbar Styling */
