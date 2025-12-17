@@ -5,7 +5,7 @@ import './ConsoleTab.css';
 // JSON 포맷팅 함수
 const formatPayload = (payload) => {
   if (!payload) return '';
-  
+
   return payload.map((p, idx) => {
     // 이미 문자열인 경우 JSON 파싱 시도
     if (typeof p === 'string') {
@@ -35,9 +35,9 @@ const formatPayload = (payload) => {
 const ConsoleTab = ({ logs }) => {
   const [filters, setFilters] = useState({
     log: true,
-    info: true,
-    warn: true,
-    error: true
+    info: false,
+    warn: false,
+    error: false
   });
 
   const toggleFilter = (type) => {
@@ -63,10 +63,10 @@ const ConsoleTab = ({ logs }) => {
       <header className="glass-panel toolbar">
         {Object.keys(filters).map(f => (
           <label key={f} className={`filter-badge ${f} ${filters[f] ? 'active' : ''}`}>
-            <input 
-              type="checkbox" 
-              checked={filters[f]} 
-              onChange={() => toggleFilter(f)} 
+            <input
+              type="checkbox"
+              checked={filters[f]}
+              onChange={() => toggleFilter(f)}
               hidden
             />
             {f.toUpperCase()}

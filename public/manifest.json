@@ -5,7 +5,17 @@
   "description": "Custom DevTools Extension",
   "action": {
     "default_popup": "index.html",
-    "default_title": "Open Extension"
+    "default_title": "Open Extension",
+    "default_icon": {
+      "16": "assets/Ringed_seal.png",
+      "48": "assets/Ringed_seal.png",
+      "128": "assets/Ringed_seal.png"
+    }
+  },
+  "icons": {
+    "16": "assets/Ringed_seal.png",
+    "48": "assets/Ringed_seal.png",
+    "128": "assets/Ringed_seal.png"
   },
   "permissions": [
     "activeTab",
@@ -18,15 +28,23 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["inject.js"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "inject.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }
