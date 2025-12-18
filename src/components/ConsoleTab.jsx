@@ -86,7 +86,10 @@ const ConsoleTab = ({ logs }) => {
           </div>
         ))}
         {filteredLogs.length === 0 && (
-          <div className="empty-state">No logs to display</div>
+          <div className="empty-state">
+            <img src="/assets/space.png" alt="No logs" className="empty-image" />
+            <p>No logs to display</p>
+          </div>
         )}
       </div>
     </div>

@@ -1,19 +1,84 @@
 .network-container {
+  display: flex;
+  flex-direction: column;
   padding: 16px;
   height: 100%;
-  overflow-y: auto;
+  gap: 16px;
+  overflow: hidden;
+  /* Prevent scaling issues */
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.filter-badge {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.2s;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+}
+
+.filter-badge:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.filter-badge.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.filter-badge.get.active {
+  border-color: #38bdf8;
+  color: #fff;
+  background: rgba(14, 165, 233, 0.2);
+}
+
+.filter-badge.post.active {
+  border-color: #4ade80;
+  color: #fff;
+  background: rgba(34, 197, 94, 0.2);
+}
+
+.filter-badge.put.active {
+  border-color: #fbbf24;
+  color: #fff;
+  background: rgba(245, 158, 11, 0.2);
+}
+
+.filter-badge.delete.active {
+  border-color: #f87171;
+  color: #fff;
+  background: rgba(239, 68, 68, 0.2);
 }
 
 .request-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow-y: auto;
+  flex: 1;
+  /* Take remaining height */
+  padding-bottom: 2px;
 }
 
 .request-item {
   border-radius: 8px;
   overflow: hidden;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .request-header {
@@ -25,7 +90,7 @@
 }
 
 .request-header:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .method-badge {
@@ -39,10 +104,40 @@
   text-transform: uppercase;
 }
 
-.method-badge[data-method="GET"] { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
-.method-badge[data-method="POST"] { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
-.method-badge[data-method="PUT"] { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-.method-badge[data-method="DELETE"] { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+/* Method badge variations */
+.method-badge[data-method="GET"],
+.method-badge.get {
+  background: rgba(14, 165, 233, 0.2);
+  color: #38bdf8;
+}
+
+.method-badge[data-method="POST"],
+.method-badge.post {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.method-badge[data-method="PUT"],
+.method-badge.put {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+.method-badge[data-method="DELETE"],
+.method-badge.delete {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.method-badge.patch {
+  background: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+}
+
+.method-badge.options {
+  background: rgba(107, 114, 128, 0.2);
+  color: #9ca3af;
+}
 
 .url {
   flex: 1;
@@ -61,15 +156,22 @@
 }
 
 .request-details {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
   padding: 16px;
   border-top: 1px solid var(--border-color);
   animation: slideDown 0.2s ease-out;
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .detail-section {
@@ -102,14 +204,6 @@
   overflow-y: auto;
   border: 1px solid var(--border-color);
 }
-
-/* Method badges by class */
-.method-badge.get { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
-.method-badge.post { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
-.method-badge.put { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-.method-badge.delete { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-.method-badge.patch { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
-.method-badge.options { background: rgba(107, 114, 128, 0.2); color: #9ca3af; }
 
 /* Status badge */
 .status-badge {
@@ -146,4 +240,23 @@
 .code-block.json-formatted {
   max-height: 200px;
   overflow-y: auto;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-top: 40px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-image {
+  width: 150px;
+  height: auto;
+  margin-bottom: 20px;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 10px rgba(100, 100, 255, 0.3));
 }

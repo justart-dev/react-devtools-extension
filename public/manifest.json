@@ -7,15 +7,15 @@
     "default_popup": "index.html",
     "default_title": "Open Extension",
     "default_icon": {
-      "16": "assets/Ringed_seal.png",
-      "48": "assets/Ringed_seal.png",
-      "128": "assets/Ringed_seal.png"
+      "16": "assets/cat.png",
+      "48": "assets/cat.png",
+      "128": "assets/cat.png"
     }
   },
   "icons": {
-    "16": "assets/Ringed_seal.png",
-    "48": "assets/Ringed_seal.png",
-    "128": "assets/Ringed_seal.png"
+    "16": "assets/cat.png",
+    "48": "assets/cat.png",
+    "128": "assets/cat.png"
   },
   "permissions": [
     "activeTab",
