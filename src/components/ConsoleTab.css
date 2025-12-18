@@ -2,68 +2,80 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 16px;
-  padding: 16px;
+  gap: 12px;
+  padding: 12px;
   overflow: hidden;
-  /* 내부 스크롤을 위해 컨테이너는 overflow hidden */
 }
 
 .toolbar {
   display: flex;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 8px;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
   flex-shrink: 0;
-  /* 툴바 줄어들지 않게 */
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
 }
 
 .filter-badge {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 99px;
+  /* Pill shape */
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.05);
-  transition: all 0.2s;
+  background: transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--text-secondary);
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.5px;
 }
 
 .filter-badge:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .filter-badge.active {
-  background: rgba(255, 255, 255, 0.15);
   color: #fff;
-  /* 활성 상태에서 텍스트 흰색 */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Active states with Glow */
+/* Active states with Softer Colors */
 .filter-badge.log.active {
-  border-color: var(--console-log);
-  color: #fff;
-  background: rgba(226, 232, 240, 0.2);
+  background: rgba(148, 163, 184, 0.2);
+  border-color: rgba(148, 163, 184, 0.4);
+  color: #e2e8f0;
+  box-shadow: 0 0 10px rgba(148, 163, 184, 0.1);
 }
 
 .filter-badge.info.active {
-  border-color: var(--console-info);
-  color: #fff;
-  background: rgba(96, 165, 250, 0.2);
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #93c5fd;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
 }
 
 .filter-badge.warn.active {
-  border-color: var(--console-warn);
-  color: #fff;
-  background: rgba(251, 191, 36, 0.2);
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fcd34d;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.1);
 }
 
 .filter-badge.error.active {
-  border-color: var(--console-error);
-  color: #fff;
-  background: rgba(248, 113, 113, 0.2);
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
 }
 
 .logs-list {
@@ -71,72 +83,69 @@
   flex-direction: column;
   gap: 8px;
   flex: 1;
-  /* 남은 공간 차지 */
   overflow-y: auto;
-  /* 스크롤 */
   padding-bottom: 2px;
-  /* 스크롤바 공간 확보 */
   min-height: 0;
-  /* Flexbox 스크롤 버그 방지 */
 }
 
 .log-item {
-  padding: 12px;
+  padding: 10px 12px;
   border-radius: 8px;
-  font-size: 13px;
-  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
   display: flex;
   flex-direction: column;
   gap: 6px;
   border-left: 3px solid transparent;
   flex-shrink: 0;
-  /* 아이템 줄어들지 않게 */
   color: #e2e8f0;
-  /* 기본 텍스트 색상 밝게 */
+  background: rgba(30, 41, 59, 0.4);
+  transition: background 0.2s;
 }
 
-/* 로그 타입별 배경 및 테두리 */
+.log-item:hover {
+  background: rgba(30, 41, 59, 0.6);
+}
+
 .log-item.error {
   border-left-color: var(--console-error);
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.1);
 }
 
 .log-item.warn {
   border-left-color: var(--console-warn);
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(245, 158, 11, 0.1);
 }
 
 .log-item.info {
   border-left-color: var(--console-info);
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(59, 130, 246, 0.1);
 }
 
 .log-item.log {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .log-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
+  opacity: 0.7;
 }
 
 .timestamp {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-secondary);
-  opacity: 0.7;
 }
 
 .log-part {
   white-space: pre-wrap;
   word-break: break-all;
-  line-height: 1.6;
-  color: #f1f5f9;
-  /* 로그 텍스트 더 밝게 */
+  line-height: 1.5;
 }
 
-/* 텍스트 가독성 개선 */
+/* 텍스트 가독성 */
 .log-item.error .log-part {
   color: #fca5a5;
 }
@@ -149,37 +158,47 @@
   color: #93c5fd;
 }
 
+.log-item.log .log-part {
+  color: #e2e8f0;
+}
+
 .empty-state {
   text-align: center;
   color: var(--text-secondary);
-  margin-top: 40px;
+  margin-top: 60px;
   font-weight: 500;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  opacity: 0.8;
 }
 
 .empty-image {
-  width: 150px;
+  width: 120px;
   height: auto;
-  margin-bottom: 20px;
-  opacity: 0.9;
-  filter: drop-shadow(0 0 10px rgba(100, 100, 255, 0.3));
+  margin-bottom: 16px;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+  transition: transform 0.3s;
 }
 
-/* JSON 포맷팅 스타일 */
+.empty-state:hover .empty-image {
+  transform: scale(1.05) rotate(3deg);
+}
+
 .json-formatted {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 10px;
   border-radius: 6px;
   margin: 4px 0;
-  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
-  font-size: 12px;
+  font-family: inherit;
+  font-size: 11px;
   line-height: 1.5;
   white-space: pre-wrap;
   word-break: break-word;
   color: #a5d6ff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   max-height: 300px;
   overflow-y: auto;
 }

@@ -1,67 +1,80 @@
 .network-container {
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 12px;
   height: 100%;
-  gap: 16px;
+  gap: 12px;
   overflow: hidden;
-  /* Prevent scaling issues */
 }
 
 .toolbar {
   display: flex;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 8px;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
   flex-shrink: 0;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
 }
 
 .filter-badge {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.05);
-  transition: all 0.2s;
+  background: transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--text-secondary);
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.5px;
 }
 
 .filter-badge:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .filter-badge.active {
-  background: rgba(255, 255, 255, 0.15);
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Active states specific to Network methods */
+/* Active states specific to Network methods (Softer) */
 .filter-badge.get.active {
-  border-color: #38bdf8;
-  color: #fff;
   background: rgba(14, 165, 233, 0.2);
+  border-color: rgba(14, 165, 233, 0.4);
+  color: #7dd3fc;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.1);
 }
 
 .filter-badge.post.active {
-  border-color: #4ade80;
-  color: #fff;
   background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #86efac;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.1);
 }
 
 .filter-badge.put.active {
-  border-color: #fbbf24;
-  color: #fff;
   background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fcd34d;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.1);
 }
 
 .filter-badge.delete.active {
-  border-color: #f87171;
-  color: #fff;
   background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
 }
 
 .request-list {
@@ -70,73 +83,89 @@
   gap: 8px;
   overflow-y: auto;
   flex: 1;
-  /* Take remaining height */
   padding-bottom: 2px;
 }
 
 .request-item {
   border-radius: 8px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.request-item:hover {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(2px);
+}
+
+.request-item.expanded {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .request-header {
   display: flex;
   align-items: center;
-  padding: 12px;
+  padding: 10px 12px;
   cursor: pointer;
-  gap: 12px;
-}
-
-.request-header:hover {
-  background: rgba(255, 255, 255, 0.05);
+  gap: 10px;
 }
 
 .method-badge {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 8px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
   border-radius: 4px;
-  min-width: 50px;
+  min-width: 48px;
   text-align: center;
-  background: #334155;
-  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Method badge variations */
+/* Method badge styles matching filters */
+/* Method badge styles matching filters (Softer) */
 .method-badge[data-method="GET"],
 .method-badge.get {
-  background: rgba(14, 165, 233, 0.2);
-  color: #38bdf8;
+  background: rgba(14, 165, 233, 0.1);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.15);
 }
 
 .method-badge[data-method="POST"],
 .method-badge.post {
-  background: rgba(34, 197, 94, 0.2);
-  color: #4ade80;
+  background: rgba(34, 197, 94, 0.1);
+  color: #86efac;
+  border: 1px solid rgba(74, 222, 128, 0.15);
 }
 
 .method-badge[data-method="PUT"],
 .method-badge.put {
-  background: rgba(245, 158, 11, 0.2);
-  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.1);
+  color: #fcd34d;
+  border: 1px solid rgba(251, 191, 36, 0.15);
 }
 
 .method-badge[data-method="DELETE"],
 .method-badge.delete {
-  background: rgba(239, 68, 68, 0.2);
-  color: #f87171;
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+  border: 1px solid rgba(248, 113, 113, 0.15);
 }
 
 .method-badge.patch {
-  background: rgba(168, 85, 247, 0.2);
-  color: #a855f7;
+  background: rgba(168, 85, 247, 0.1);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.15);
 }
 
 .method-badge.options {
-  background: rgba(107, 114, 128, 0.2);
-  color: #9ca3af;
+  background: rgba(107, 114, 128, 0.1);
+  color: #cbd5e1;
+  border: 1px solid rgba(156, 163, 175, 0.15);
 }
 
 .url {
@@ -144,8 +173,9 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
   opacity: 0.9;
 }
 
@@ -153,19 +183,24 @@
   color: var(--text-secondary);
   display: flex;
   align-items: center;
+  transition: transform 0.2s;
+}
+
+.request-item.expanded .chevron svg {
+  transform: rotate(180deg);
 }
 
 .request-details {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  border-top: 1px solid var(--border-color);
-  animation: slideDown 0.2s ease-out;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
 
   to {
@@ -175,7 +210,7 @@
 }
 
 .detail-section {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .detail-section:last-child {
@@ -183,54 +218,77 @@
 }
 
 .detail-section h4 {
-  margin: 0 0 8px 0;
-  font-size: 12px;
+  margin: 0 0 6px 0;
+  font-size: 11px;
   text-transform: uppercase;
   color: var(--text-secondary);
   letter-spacing: 0.5px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .code-block {
-  background: #0f172a;
-  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
   border-radius: 6px;
-  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
-  font-size: 12px;
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
+  font-size: 11px;
   white-space: pre-wrap;
   word-break: break-all;
   color: #e2e8f0;
-  max-height: 200px;
+  max-height: 250px;
   overflow-y: auto;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Status badge */
 .status-badge {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 6px;
   border-radius: 4px;
   min-width: 32px;
   text-align: center;
 }
 
 .status-badge.success {
-  background: rgba(34, 197, 94, 0.2);
+  background: rgba(34, 197, 94, 0.1);
   color: #4ade80;
 }
 
 .status-badge.error {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.1);
   color: #f87171;
 }
 
 .status-badge.warning {
-  background: rgba(245, 158, 11, 0.2);
+  background: rgba(245, 158, 11, 0.1);
   color: #fbbf24;
 }
 
-/* JSON 포맷팅 스타일 */
+.empty-state {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-top: 60px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+}
+
+.empty-image {
+  width: 120px;
+  height: auto;
+  margin-bottom: 16px;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+  transition: transform 0.3s;
+}
+
+.empty-state:hover .empty-image {
+  transform: scale(1.05) rotate(3deg);
+}
+
 .json-formatted {
   color: #a5d6ff;
   line-height: 1.5;
@@ -238,25 +296,6 @@
 }
 
 .code-block.json-formatted {
-  max-height: 200px;
+  max-height: 250px;
   overflow-y: auto;
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  color: var(--text-secondary);
-  margin-top: 40px;
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.empty-image {
-  width: 150px;
-  height: auto;
-  margin-bottom: 20px;
-  opacity: 0.9;
-  filter: drop-shadow(0 0 10px rgba(100, 100, 255, 0.3));
 }
