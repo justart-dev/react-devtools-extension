@@ -82,8 +82,27 @@
   flex-direction: column;
   gap: 8px;
   overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
-  padding-bottom: 2px;
+  padding-right: 12px;
+  padding-bottom: 8px;
+}
+
+.request-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.request-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.request-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+.request-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .request-item {
@@ -98,7 +117,6 @@
 .request-item:hover {
   background: rgba(30, 41, 59, 0.6);
   border-color: rgba(255, 255, 255, 0.1);
-  transform: translateX(2px);
 }
 
 .request-item.expanded {
