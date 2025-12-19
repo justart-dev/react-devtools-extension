@@ -104,12 +104,12 @@ const StashTab = () => {
           <div key={item.id} className="stash-item">
             <div className="item-meta">
               <div className="meta-left">
-                <span className="timestamp">
-                  {new Date(item.timestamp).toLocaleTimeString('en-US', { hour12: false })}
-                </span>
                 {item.url && (
                   <span className="source-url">{getHostname(item.url)}</span>
                 )}
+                <span className="timestamp">
+                  {new Date(item.timestamp).toLocaleTimeString('en-US', { hour12: false })}
+                </span>
               </div>
               <div className="item-actions">
                 <button

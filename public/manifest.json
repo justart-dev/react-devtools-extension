@@ -18,9 +18,7 @@
     "128": "assets/cat.png"
   },
   "permissions": [
-    "activeTab",
-    "storage",
-    "clipboardWrite"
+    "storage"
   ],
   "background": {
     "service_worker": "background.js"
