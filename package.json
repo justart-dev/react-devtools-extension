@@ -1,6 +1,6 @@
 {
   "name": "taillog",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A lightweight Chrome extension for monitoring console logs, network requests, and managing copied text snippets.",
   "type": "module",
   "author": {
