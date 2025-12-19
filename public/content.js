@@ -6,7 +6,7 @@ s.onload = function() {
 (document.head || document.documentElement).appendChild(s);
 
 window.addEventListener('message', function(event) {
-  if (event.source !== window || !event.data || event.data.source !== 'react-devtools-extension') {
+  if (event.source !== window || !event.data || event.data.source !== 'taillog-extension') {
     return;
   }
   try {

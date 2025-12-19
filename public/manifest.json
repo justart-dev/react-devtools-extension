@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "React DevTools Extension",
+  "name": "Taillog",
   "version": "1.0.0",
-  "description": "Custom DevTools Extension",
+  "description": "A lightweight developer tool for monitoring console logs, network requests, and managing copied text snippets. Perfect for debugging web applications.",
   "action": {
     "default_popup": "index.html",
-    "default_title": "Open Extension",
+    "default_title": "Open Taillog",
     "default_icon": {
       "16": "assets/cat.png",
       "48": "assets/cat.png",
@@ -20,8 +20,6 @@
   "permissions": [
     "activeTab",
     "storage",
-    "tabs",
-    "clipboardRead",
     "clipboardWrite"
   ],
   "background": {
