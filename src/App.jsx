@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Globe } from 'lucide-react';
+import { Terminal, Globe, Archive } from 'lucide-react';
 import ConsoleTab from './components/ConsoleTab';
 import NetworkTab from './components/NetworkTab';
+import StashTab from './components/StashTab';
 import './App.css';
 
 function App() {
@@ -59,22 +60,27 @@ function App() {
           <Terminal size={18} />
           <span>Console</span>
         </button>
-        <button 
+        <button
           className={`nav-item ${activeTab === 'network' ? 'active' : ''}`}
           onClick={() => setActiveTab('network')}
         >
           <Globe size={18} />
           <span>Network</span>
         </button>
+        <button
+          className={`nav-item ${activeTab === 'stash' ? 'active' : ''}`}
+          onClick={() => setActiveTab('stash')}
+        >
+          <Archive size={18} />
+          <span>Stash</span>
+        </button>
       </nav>
       
       <main className="content-area">
         {!isConnected && <div className="connection-status">Connecting to tab...</div>}
-        {activeTab === 'console' ? (
-          <ConsoleTab logs={logs} />
-        ) : (
-          <NetworkTab requests={requests} />
-        )}
+        {activeTab === 'console' && <ConsoleTab logs={logs} />}
+        {activeTab === 'network' && <NetworkTab requests={requests} />}
+        {activeTab === 'stash' && <StashTab />}
       </main>
     </div>
   );

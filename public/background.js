@@ -1,7 +1,16 @@
 // 저장소
 let consoleLogs = [];
 let networkRequests = [];
+let clipboardHistory = [];
 const MAX_ITEMS = 10;
+const MAX_CLIPBOARD_ITEMS = 10;
+
+// 클립보드 히스토리 불러오기
+chrome.storage.local.get(['clipboardHistory'], (result) => {
+    if (result.clipboardHistory) {
+        clipboardHistory = result.clipboardHistory;
+    }
+});
 
 // 연결된 포트
 const connections = {};
@@ -57,6 +66,25 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (networkRequests.length > MAX_ITEMS) networkRequests.shift();
 
         broadcast(request);
+    }
+    if (request.type === 'clipboard') {
+        // 중복 체크
+        const isDuplicate = clipboardHistory.some(item => item.content === request.content);
+        if (!isDuplicate) {
+            const newItem = {
+                id: Date.now(),
+                content: request.content,
+                timestamp: request.timestamp,
+                url: request.url
+            };
+            clipboardHistory.unshift(newItem);
+            if (clipboardHistory.length > MAX_CLIPBOARD_ITEMS) {
+                clipboardHistory.pop();
+            }
+            // 저장
+            chrome.storage.local.set({ clipboardHistory: clipboardHistory });
+            broadcast(request);
+        }
     }
     return true;
 });
