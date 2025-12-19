@@ -8,7 +8,7 @@ const StashTab = () => {
   const textareaRef = useRef(null);
 
   useEffect(() => {
-    // 저장된 스태시 히스토리 불러오기
+    // Load saved stash history
     if (typeof chrome !== 'undefined' && chrome.storage) {
       chrome.storage.local.get(['clipboardHistory'], (result) => {
         if (result.clipboardHistory) {
@@ -16,7 +16,7 @@ const StashTab = () => {
         }
       });
 
-      // storage 변경 감지 (실시간 업데이트)
+      // Listen for storage changes (real-time updates)
       const storageListener = (changes, areaName) => {
         if (areaName === 'local' && changes.clipboardHistory) {
           setStashHistory(changes.clipboardHistory.newValue || []);
@@ -105,7 +105,7 @@ const StashTab = () => {
             <div className="item-meta">
               <div className="meta-left">
                 <span className="timestamp">
-                  {new Date(item.timestamp).toLocaleTimeString()}
+                  {new Date(item.timestamp).toLocaleTimeString('en-US', { hour12: false })}
                 </span>
                 {item.url && (
                   <span className="source-url">{getHostname(item.url)}</span>

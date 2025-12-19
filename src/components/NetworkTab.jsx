@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Search, X, Copy, Check } from 'lucide-react';
 import './NetworkTab.css';
 
-// JSON 포맷팅 함수
+// JSON formatting function
 const formatJson = (data) => {
   if (!data) return null;
 
   try {
-    // 이미 문자열인 경우 파싱 시도
+    // Try parsing if already a string
     const parsed = typeof data === 'string' ? JSON.parse(data) : data;
     return JSON.stringify(parsed, null, 2);
   } catch {
-    // JSON이 아닌 경우 그대로 반환
+    // Return as-is if not JSON
     return typeof data === 'string' ? data : String(data);
   }
 };
@@ -66,16 +66,16 @@ const NetworkTab = ({ requests }) => {
     }
   };
 
-  // 필터링 적용 (메소드 + URL 검색)
+  // Apply filters (method + URL search)
   const filteredRequests = requests.filter(req => {
     const method = (req.method || 'GET').toLowerCase();
 
-    // 메소드 필터
+    // Method filter
     if (filters[method] !== undefined && !filters[method]) {
       return false;
     }
 
-    // URL 검색 필터
+    // URL search filter
     if (searchQuery.trim()) {
       const url = (req.url || '').toLowerCase();
       if (!url.includes(searchQuery.toLowerCase().trim())) {
@@ -86,7 +86,7 @@ const NetworkTab = ({ requests }) => {
     return true;
   });
 
-  // 최근 5개만 표시 (필터링 된 결과 중에서)
+  // Show only last 5 from filtered results
   const recentRequests = filteredRequests.slice(-5);
 
   return (
