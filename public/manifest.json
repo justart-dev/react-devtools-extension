@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Taillog",
   "version": "1.0.0",
-  "description": "A lightweight developer tool for monitoring console logs, network requests, and managing copied text snippets. Perfect for debugging web applications.",
+  "description": "Monitor console logs, network requests, and clipboard history in one place. A lightweight debugging tool.",
   "action": {
     "default_popup": "index.html",
     "default_title": "Open Taillog",
