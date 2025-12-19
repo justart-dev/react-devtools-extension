@@ -1,8 +1,28 @@
 {
-  "name": "react-devtools-extension",
-  "private": true,
-  "version": "0.0.0",
+  "name": "taillog",
+  "version": "0.0.1",
+  "description": "A lightweight Chrome extension for monitoring console logs, network requests, and managing copied text snippets.",
   "type": "module",
+  "author": {
+    "name": "Parkdonggun",
+    "email": "hbd9425@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justart-dev/react-devtools-extension"
+  },
+  "bugs": {
+    "email": "hbd9425@gmail.com"
+  },
+  "keywords": [
+    "chrome-extension",
+    "devtools",
+    "console",
+    "network",
+    "clipboard",
+    "debugging"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
