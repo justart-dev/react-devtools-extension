@@ -22,60 +22,41 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 14px;
-  border-radius: 99px;
-  /* Pill shape */
+  padding: 5px 12px;
+  border-radius: 6px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   background: transparent;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s ease;
   color: var(--text-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  letter-spacing: 0.5px;
+  border: none;
 }
 
 .filter-badge:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .filter-badge.active {
   color: #fff;
-  border-color: transparent;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-/* Active states with Glow */
-/* Active states with Softer Colors */
 .filter-badge.log.active {
-  background: rgba(148, 163, 184, 0.2);
-  border-color: rgba(148, 163, 184, 0.4);
   color: #e2e8f0;
-  box-shadow: 0 0 10px rgba(148, 163, 184, 0.1);
 }
 
 .filter-badge.info.active {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.4);
   color: #93c5fd;
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
 }
 
 .filter-badge.warn.active {
-  background: rgba(245, 158, 11, 0.2);
-  border-color: rgba(245, 158, 11, 0.4);
   color: #fcd34d;
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.1);
 }
 
 .filter-badge.error.active {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.4);
   color: #fca5a5;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
 }
 
 .logs-list {
