@@ -85,7 +85,7 @@ const StashTab = () => {
         aria-hidden="true"
       />
 
-      <header className="glass-panel toolbar">
+      <header className="toolbar">
         <div className="toolbar-info">
           <span>Auto-captured: {stashHistory.length} items</span>
           <span className="max-hint">Keeps last 10 captured</span>
@@ -101,7 +101,7 @@ const StashTab = () => {
 
       <div className="stash-list">
         {stashHistory.map((item, index) => (
-          <div key={item.id} className="stash-item glass-panel">
+          <div key={item.id} className="stash-item">
             <div className="item-meta">
               <div className="meta-left">
                 <span className="timestamp">

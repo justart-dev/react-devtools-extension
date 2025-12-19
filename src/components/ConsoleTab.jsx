@@ -60,7 +60,7 @@ const ConsoleTab = ({ logs }) => {
 
   return (
     <div className="console-container animate-fade-in">
-      <header className="glass-panel toolbar">
+      <header className="toolbar">
         {Object.keys(filters).map(f => (
           <label key={f} className={`filter-badge ${f} ${filters[f] ? 'active' : ''}`}>
             <input
@@ -75,7 +75,7 @@ const ConsoleTab = ({ logs }) => {
       </header>
       <div className="logs-list">
         {filteredLogs.map((log, i) => (
-          <div key={i} className={`log-item glass-panel ${log.level}`}>
+          <div key={i} className={`log-item ${log.level}`}>
             <div className="log-meta">
               <span className="timestamp">{log.timestamp ? new Date(log.timestamp).toLocaleTimeString() : ''}</span>
               <span className="icon">{getIcon(log.level)}</span>

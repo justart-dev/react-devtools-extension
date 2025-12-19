@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Globe, Archive } from 'lucide-react';
+import { Terminal, Globe, History } from 'lucide-react';
 import ConsoleTab from './components/ConsoleTab';
 import NetworkTab from './components/NetworkTab';
 import StashTab from './components/StashTab';
@@ -71,7 +71,7 @@ function App() {
           className={`nav-item ${activeTab === 'stash' ? 'active' : ''}`}
           onClick={() => setActiveTab('stash')}
         >
-          <Archive size={18} />
+          <History size={18} />
           <span>Stash</span>
         </button>
       </nav>

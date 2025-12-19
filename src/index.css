@@ -1,26 +1,45 @@
 :root {
-  --bg-primary: #0a0f1a;
-  --bg-secondary: #141b2d;
-  --bg-card: rgba(20, 27, 45, 0.6);
-  --text-primary: #f1f5f9;
-  --text-secondary: #64748b;
-  --text-muted: #475569;
+  --bg-primary: #0c0f14;
+  --bg-secondary: #13161d;
+  --bg-tertiary: #1a1d26;
+  --bg-card: rgba(26, 29, 38, 0.8);
+
+  --text-primary: #e8eaed;
+  --text-secondary: #8b8f98;
+  --text-muted: #5f6368;
+
   --accent-primary: #8b5cf6;
-  --accent-glow: rgba(139, 92, 246, 0.15);
-  --console-log: #cbd5e1;
-  --console-info: #60a5fa;
-  --console-warn: #facc15;
-  --console-error: #f87171;
+  --accent-hover: #a78bfa;
+
   --border-color: rgba(255, 255, 255, 0.06);
-  --border-subtle: rgba(255, 255, 255, 0.03);
+
+  --console-log: #9aa0a6;
+  --console-info: #8ab4f8;
+  --console-warn: #fdd663;
+  --console-error: #f28b82;
+
+  --method-get: #8ab4f8;
+  --method-post: #81c995;
+  --method-put: #fdd663;
+  --method-delete: #f28b82;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  width: 600px;
-  height: 500px;
+  width: 480px;
+  height: 520px;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
@@ -29,8 +48,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -38,39 +56,14 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.18);
 }
 
-.glass-panel {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Utilities */
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+::selection {
+  background: rgba(139, 92, 246, 0.3);
 }
