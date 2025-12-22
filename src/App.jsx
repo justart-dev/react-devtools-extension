@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Globe, History } from 'lucide-react';
+import { Terminal, Globe, History, MousePointer2 } from 'lucide-react';
 import ConsoleTab from './components/ConsoleTab';
 import NetworkTab from './components/NetworkTab';
 import StashTab from './components/StashTab';
+import LocatorTab from './components/LocatorTab';
 import './App.css';
 
 function App() {
@@ -74,6 +75,13 @@ function App() {
           <History size={18} />
           <span>Stash</span>
         </button>
+        <button
+          className={`nav-item ${activeTab === 'locator' ? 'active' : ''}`}
+          onClick={() => setActiveTab('locator')}
+        >
+          <MousePointer2 size={18} />
+          <span>Locator</span>
+        </button>
       </nav>
       
       <main className="content-area">
@@ -81,6 +89,7 @@ function App() {
         {activeTab === 'console' && <ConsoleTab logs={logs} />}
         {activeTab === 'network' && <NetworkTab requests={requests} />}
         {activeTab === 'stash' && <StashTab />}
+        {activeTab === 'locator' && <LocatorTab />}
       </main>
     </div>
   );
