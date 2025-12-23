@@ -287,7 +287,10 @@
 
   // Handle click
   function handleClick(e) {
-    if (!e.altKey || !isLocatorActive || !isEnabled) return;
+    // Only check e.altKey and isEnabled - don't require isLocatorActive
+    // This fixes the issue where keydown event might not fire before click
+    // (e.g., when clicking quickly or when window regains focus with Alt held)
+    if (!e.altKey || !isEnabled) return;
 
     e.preventDefault();
     e.stopPropagation();
