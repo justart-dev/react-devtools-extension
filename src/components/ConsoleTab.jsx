@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { AlertCircle, Info, TriangleAlert, Terminal } from 'lucide-react';
 import './ConsoleTab.css';
 
-// JSON 포맷팅 함수
+// JSON formatting function
 const formatPayload = (payload) => {
   if (!payload) return '';
 
   return payload.map((p, idx) => {
-    // 이미 문자열인 경우 JSON 파싱 시도
+    // Try parsing if already a string
     if (typeof p === 'string') {
       try {
         const parsed = JSON.parse(p);
@@ -20,7 +20,7 @@ const formatPayload = (payload) => {
         return <span key={idx} className="log-part">{p}</span>;
       }
     }
-    // 객체인 경우 포맷팅
+    // Format if object
     if (typeof p === 'object') {
       return (
         <pre key={idx} className="json-formatted">
@@ -44,7 +44,7 @@ const ConsoleTab = ({ logs }) => {
     setFilters(prev => ({ ...prev, [type]: !prev[type] }));
   };
 
-  // 필터링 후 최근 5개만 표시
+  // Filter and show only last 5
   const filteredLogs = logs
     .filter(l => filters[l.level])
     .slice(-5);
@@ -60,7 +60,7 @@ const ConsoleTab = ({ logs }) => {
 
   return (
     <div className="console-container animate-fade-in">
-      <header className="glass-panel toolbar">
+      <header className="toolbar">
         {Object.keys(filters).map(f => (
           <label key={f} className={`filter-badge ${f} ${filters[f] ? 'active' : ''}`}>
             <input
@@ -75,9 +75,9 @@ const ConsoleTab = ({ logs }) => {
       </header>
       <div className="logs-list">
         {filteredLogs.map((log, i) => (
-          <div key={i} className={`log-item glass-panel ${log.level}`}>
+          <div key={i} className={`log-item ${log.level}`}>
             <div className="log-meta">
-              <span className="timestamp">{log.timestamp ? new Date(log.timestamp).toLocaleTimeString() : ''}</span>
+              <span className="timestamp">{log.timestamp ? new Date(log.timestamp).toLocaleTimeString('en-US', { hour12: false }) : ''}</span>
               <span className="icon">{getIcon(log.level)}</span>
             </div>
             <div className="payload">

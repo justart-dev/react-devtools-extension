@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Globe } from 'lucide-react';
+import { Terminal, Globe, History, MousePointer2 } from 'lucide-react';
 import ConsoleTab from './components/ConsoleTab';
 import NetworkTab from './components/NetworkTab';
+import StashTab from './components/StashTab';
+import LocatorTab from './components/LocatorTab';
 import './App.css';
 
 function App() {
@@ -59,22 +61,35 @@ function App() {
           <Terminal size={18} />
           <span>Console</span>
         </button>
-        <button 
+        <button
           className={`nav-item ${activeTab === 'network' ? 'active' : ''}`}
           onClick={() => setActiveTab('network')}
         >
           <Globe size={18} />
           <span>Network</span>
         </button>
+        <button
+          className={`nav-item ${activeTab === 'stash' ? 'active' : ''}`}
+          onClick={() => setActiveTab('stash')}
+        >
+          <History size={18} />
+          <span>Stash</span>
+        </button>
+        <button
+          className={`nav-item ${activeTab === 'locator' ? 'active' : ''}`}
+          onClick={() => setActiveTab('locator')}
+        >
+          <MousePointer2 size={18} />
+          <span>Locator</span>
+        </button>
       </nav>
       
       <main className="content-area">
         {!isConnected && <div className="connection-status">Connecting to tab...</div>}
-        {activeTab === 'console' ? (
-          <ConsoleTab logs={logs} />
-        ) : (
-          <NetworkTab requests={requests} />
-        )}
+        {activeTab === 'console' && <ConsoleTab logs={logs} />}
+        {activeTab === 'network' && <NetworkTab requests={requests} />}
+        {activeTab === 'stash' && <StashTab />}
+        {activeTab === 'locator' && <LocatorTab />}
       </main>
     </div>
   );

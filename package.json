@@ -1,8 +1,28 @@
 {
-  "name": "react-devtools-extension",
-  "private": true,
-  "version": "0.0.0",
+  "name": "taillog",
+  "version": "1.1.0",
+  "description": "Taillog helps web developers debug faster by monitoring console logs, network requests, and clipboard history.",
   "type": "module",
+  "author": {
+    "name": "Parkdonggun",
+    "email": "hbd9425@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justart-dev/react-devtools-extension"
+  },
+  "bugs": {
+    "email": "hbd9425@gmail.com"
+  },
+  "keywords": [
+    "chrome-extension",
+    "devtools",
+    "console",
+    "network",
+    "clipboard",
+    "debugging"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",

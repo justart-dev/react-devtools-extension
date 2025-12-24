@@ -28,7 +28,7 @@
       
       if (!shouldIgnore(argsStr)) {
         window.postMessage({
-          source: 'react-devtools-extension',
+          source: 'taillog-extension',
           type: 'console',
           level: method,
           timestamp: new Date().toISOString(),
@@ -66,7 +66,7 @@
       
       clonedResponse.text().then(body => {
         window.postMessage({
-          source: 'react-devtools-extension',
+          source: 'taillog-extension',
           type: 'network',
           url: url,
           method: method.toUpperCase(),
@@ -80,7 +80,7 @@
       return response;
     } catch (error) {
       window.postMessage({
-        source: 'react-devtools-extension',
+        source: 'taillog-extension',
         type: 'network',
         url: url,
         method: method.toUpperCase(),
@@ -109,7 +109,7 @@
 
     xhr.addEventListener('load', function() {
       window.postMessage({
-        source: 'react-devtools-extension',
+        source: 'taillog-extension',
         type: 'network',
         url: xhr._devtools.url,
         method: xhr._devtools.method,
@@ -122,7 +122,7 @@
 
     xhr.addEventListener('error', function() {
       window.postMessage({
-        source: 'react-devtools-extension',
+        source: 'taillog-extension',
         type: 'network',
         url: xhr._devtools.url,
         method: xhr._devtools.method,

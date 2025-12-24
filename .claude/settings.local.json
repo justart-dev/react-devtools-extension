@@ -1,7 +1,35 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(mv:*)",
+      "Bash(git checkout:*)",
+      "Bash(sips:*)",
+      "Bash(python3:*)",
+      "Bash(pip3 install:*)",
+      "Bash(brew install:*)",
+      "Bash(for i in 1 2 3)",
+      "Bash(do )",
+      "Bash(magick screenshot$i.png -resize 600x700 -background '#0c0f14' -gravity center -extent 1280x800 screenshot$i_store.png)",
+      "Bash(done)",
+      "Bash(ls:*)",
+      "Bash(magick screenshot$i.png -resize 600x700 -background '#6366f1' -gravity center -extent 1280x800 screenshot$i_store.png)",
+      "Bash(magick screenshot$i.png -resize 600x700 -background '#e5e7eb' -gravity center -extent 1280x800 screenshot$i_store.png)",
+      "Bash(magick screenshot$i.png -resize 600x700 -background '#fef3c7' -gravity center -extent 1280x800 screenshot$i_store.png)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(claude mcp add:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_close",
+      "Bash(npm install:*)",
+      "Bash(cat:*)",
+      "Bash(pkill:*)",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_console_messages",
+      "Bash(npm uninstall:*)"
     ]
   }
 }

@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "React DevTools Extension",
-  "version": "1.0.0",
-  "description": "Custom DevTools Extension",
+  "name": "Taillog - Console & Network Logger",
+  "version": "1.1.0",
+  "description": "Taillog helps web developers debug faster by monitoring console logs, network requests, and clipboard history.",
   "action": {
     "default_popup": "index.html",
-    "default_title": "Open Extension",
+    "default_title": "Open Taillog",
     "default_icon": {
       "16": "assets/cat.png",
       "48": "assets/cat.png",
@@ -18,9 +18,7 @@
     "128": "assets/cat.png"
   },
   "permissions": [
-    "activeTab",
-    "storage",
-    "tabs"
+    "storage"
   ],
   "background": {
     "service_worker": "background.js"
@@ -39,7 +37,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "inject.js"
+        "inject.js",
+        "locator-inject.js"
       ],
       "matches": [
         "<all_urls>"
