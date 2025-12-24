@@ -62,7 +62,7 @@
 .log-item {
   padding: 10px 14px;
   font-size: 12px;
-  font-family: 'SF Mono', 'Monaco', 'Menlo', monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Menlo', monospace;
   display: flex;
   flex-direction: column;
   gap: 4px;

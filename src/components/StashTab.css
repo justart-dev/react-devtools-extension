@@ -150,7 +150,7 @@
 
 .item-content pre {
   margin: 0;
-  font-family: 'SF Mono', 'Monaco', 'Menlo', monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Menlo', monospace;
   font-size: 11px;
   line-height: 1.5;
   white-space: pre-wrap;

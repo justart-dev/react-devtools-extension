@@ -81,6 +81,7 @@ const LocatorTab = () => {
         </section>
 
         <section className="info-section">
+          <h4>Component Types</h4>
           <div className="info-item">
             <span className="info-dot blue"></span>
             <span>Client Component - direct source link</span>
@@ -93,6 +94,8 @@ const LocatorTab = () => {
             <span className="info-dot gray"></span>
             <span>No React component detected</span>
           </div>
+          <p className="info-tip"> Works best with development builds that include source maps.</p>
+          <p className="info-feedback"> Feedback : <a href="mailto:hbd9425@gmail.com">hbd9425@gmail.com</a></p>
         </section>
       </div>
     </div>
