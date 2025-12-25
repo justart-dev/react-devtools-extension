@@ -1,6 +1,6 @@
 {
   "name": "taillog",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "description": "Taillog helps web developers debug faster by monitoring console logs, network requests, and clipboard history.",
   "type": "module",
   "author": {
