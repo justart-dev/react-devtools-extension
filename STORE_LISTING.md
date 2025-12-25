@@ -31,10 +31,11 @@ Stash Tab
 • Re-copy to clipboard with a single click
 
 Locator (React Component Inspector)
+• Zero Configuration - No Babel plugin required (React 17+)
 • Alt + Hover to highlight React components with source location
 • Alt + Click to open component source file in your IDE
 • Supports VSCode, Cursor, Windsurf, IntelliJ IDEA, Antigravity
-• Works with React 17+ and RSC
+• Supports RSC (React Server Components)
 
 Why Taillog?
 

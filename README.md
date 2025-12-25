@@ -26,10 +26,11 @@ A lightweight Chrome extension for web developers to monitor console logs, netwo
 - Re-copy with a single click
 
 ### Locator (React Component Inspector)
+- **Zero Configuration** - No Babel plugin or setup required (React 17+ only)
 - **Alt + Hover**: Highlight React components and see component name with source location
 - **Alt + Click**: Open the component source file directly in your IDE
 - Supported IDEs: VSCode, Cursor, Windsurf, IntelliJ IDEA, Antigravity
-- Works with React 17+ and supports RSC (React Server Components)
+- Supports RSC (React Server Components)
 
 ## Installation
 
