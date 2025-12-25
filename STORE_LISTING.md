@@ -1,5 +1,7 @@
 # Chrome Web Store Listing
 
+**[Install Taillog](https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm)**
+
 ---
 ### Short Description (under 132 characters)
 ```
@@ -28,6 +30,12 @@ Stash Tab
 • View your recent clipboard history at a glance
 • Re-copy to clipboard with a single click
 
+Locator (React Component Inspector)
+• Alt + Hover to highlight React components with source location
+• Alt + Click to open component source file in your IDE
+• Supports VSCode, Cursor, Windsurf, IntelliJ IDEA, Antigravity
+• Works with React 17+ and RSC
+
 Why Taillog?
 
 • Lightweight & Fast: Works without impacting browser performance
@@ -35,7 +43,13 @@ Why Taillog?
 • Simple UI: Clean interface with just the features you need
 
 Debug quickly without opening DevTools!
+
+Install Now: https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm
 ```
 
 ---
+
+## Links
+- **Chrome Web Store**: https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm
+- **GitHub**: https://github.com/justart-dev/react-devtools-extension
 

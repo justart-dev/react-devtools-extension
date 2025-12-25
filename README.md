@@ -1,6 +1,11 @@
-# Taillog
+# Taillog - Console & Network Logger
 
-A lightweight Chrome extension for web developers to monitor console logs, network requests, and manage clipboard history.
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/nomgkaaaojblgcgkmiepaaggbfpeeobm)](https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A lightweight Chrome extension for web developers to monitor console logs, network requests, and manage clipboard history. Debug faster without opening DevTools!
+
+**[Install from Chrome Web Store](https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm)**
 
 ## Features
 
@@ -20,10 +25,16 @@ A lightweight Chrome extension for web developers to monitor console logs, netwo
 - View clipboard history at a glance
 - Re-copy with a single click
 
+### Locator (React Component Inspector)
+- **Alt + Hover**: Highlight React components and see component name with source location
+- **Alt + Click**: Open the component source file directly in your IDE
+- Supported IDEs: VSCode, Cursor, Windsurf, IntelliJ IDEA, Antigravity
+- Works with React 17+ and supports RSC (React Server Components)
+
 ## Installation
 
-### From Chrome Web Store
-*(Coming soon)*
+### From Chrome Web Store (Recommended)
+**[Click here to install Taillog](https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm)**
 
 ### Manual Installation (Developer Mode)
 1. Clone this repository
