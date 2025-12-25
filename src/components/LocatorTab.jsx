@@ -55,7 +55,7 @@ const LocatorTab = () => {
 
       <div className="locator-content">
         <section className="settings-section">
-          <h4><Monitor size={14} /> Preferred IDE</h4>
+          <h4><Monitor size={14} /> Open With</h4>
           <div className="ide-grid">
             {IDES.map((ide, index) => (
               <button
@@ -81,7 +81,7 @@ const LocatorTab = () => {
         </section>
 
         <section className="info-section">
-          <h4>Component Types</h4>
+          <h4>Highlight Info</h4>
           <div className="info-item">
             <span className="info-dot blue"></span>
             <span>Client Component - direct source link</span>
@@ -94,9 +94,26 @@ const LocatorTab = () => {
             <span className="info-dot gray"></span>
             <span>No React component detected</span>
           </div>
-          <p className="info-tip"> Works best with development builds that include source maps.</p>
-          <p className="info-feedback"> Feedback : <a href="mailto:hbd9425@gmail.com">hbd9425@gmail.com</a></p>
         </section>
+
+        <div className="tips-section">
+          <div className="tip-item">
+            <span className="tip-label">Requires</span>
+            <span>React 17+ in development mode</span>
+          </div>
+          <div className="tip-item">
+            <span className="tip-label">Zero Config</span>
+            <span>No Babel plugin needed</span>
+          </div>
+          <div className="tip-item">
+            <span className="tip-label">Works with</span>
+            <span>Next.js, Vite, CRA, Remix</span>
+          </div>
+        </div>
+
+        <footer className="locator-footer">
+          <span>Feedback: <a href="mailto:hbd9425@gmail.com">hbd9425@gmail.com</a></span>
+        </footer>
       </div>
     </div>
   );
