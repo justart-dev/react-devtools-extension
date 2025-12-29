@@ -63,8 +63,16 @@
     try {
       const response = await originalFetch.apply(this, args);
       const clonedResponse = response.clone();
-      
-      clonedResponse.text().then(body => {
+      const contentType = response.headers.get('content-type') || '';
+
+      // Skip binary responses
+      const isBinary = contentType.includes('arraybuffer') ||
+                       contentType.includes('octet-stream') ||
+                       contentType.includes('image/') ||
+                       contentType.includes('audio/') ||
+                       contentType.includes('video/');
+
+      if (isBinary) {
         window.postMessage({
           source: 'taillog-extension',
           type: 'network',
@@ -72,10 +80,34 @@
           method: method.toUpperCase(),
           statusCode: response.status,
           payload: payload,
-          response: body,
+          response: '[Binary Data]',
           timestamp: startTime
         }, '*');
-      }).catch(() => {});
+      } else {
+        clonedResponse.text().then(body => {
+          window.postMessage({
+            source: 'taillog-extension',
+            type: 'network',
+            url: url,
+            method: method.toUpperCase(),
+            statusCode: response.status,
+            payload: payload,
+            response: body,
+            timestamp: startTime
+          }, '*');
+        }).catch(() => {
+          window.postMessage({
+            source: 'taillog-extension',
+            type: 'network',
+            url: url,
+            method: method.toUpperCase(),
+            statusCode: response.status,
+            payload: payload,
+            response: '[Unable to read response]',
+            timestamp: startTime
+          }, '*');
+        });
+      }
       
       return response;
     } catch (error) {
@@ -108,6 +140,20 @@
     xhr._devtools.payload = body ? (typeof body === 'string' ? body : JSON.stringify(body)) : null;
 
     xhr.addEventListener('load', function() {
+      let responseData;
+      try {
+        // responseText throws error when responseType is not '' or 'text'
+        if (xhr.responseType === '' || xhr.responseType === 'text') {
+          responseData = xhr.responseText;
+        } else if (xhr.responseType === 'json') {
+          responseData = JSON.stringify(xhr.response);
+        } else {
+          responseData = '[Binary Data]';
+        }
+      } catch {
+        responseData = '[Unable to read response]';
+      }
+
       window.postMessage({
         source: 'taillog-extension',
         type: 'network',
@@ -115,7 +161,7 @@
         method: xhr._devtools.method,
         statusCode: xhr.status,
         payload: xhr._devtools.payload,
-        response: xhr.responseText,
+        response: responseData,
         timestamp: startTime
       }, '*');
     });
