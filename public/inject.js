@@ -65,14 +65,13 @@
       const clonedResponse = response.clone();
       const contentType = response.headers.get('content-type') || '';
 
-      // Skip binary responses
-      const isBinary = contentType.includes('arraybuffer') ||
-                       contentType.includes('octet-stream') ||
-                       contentType.includes('image/') ||
-                       contentType.includes('audio/') ||
-                       contentType.includes('video/');
+      // Only process API responses (whitelist approach)
+      const isApiResponse = contentType.includes('json') ||
+                            contentType.includes('xml') ||
+                            contentType.includes('text/plain') ||
+                            contentType.includes('text/html');
 
-      if (isBinary) {
+      if (!isApiResponse) {
         window.postMessage({
           source: 'taillog-extension',
           type: 'network',
@@ -80,11 +79,15 @@
           method: method.toUpperCase(),
           statusCode: response.status,
           payload: payload,
-          response: '[Binary Data]',
+          response: '[Skipped]',
           timestamp: startTime
         }, '*');
       } else {
-        clonedResponse.text().then(body => {
+        // Check Content-Length first (1MB limit)
+        const contentLength = response.headers.get('content-length');
+        const MAX_SIZE = 1024 * 1024; // 1MB
+
+        if (contentLength && parseInt(contentLength) > MAX_SIZE) {
           window.postMessage({
             source: 'taillog-extension',
             type: 'network',
@@ -92,21 +95,34 @@
             method: method.toUpperCase(),
             statusCode: response.status,
             payload: payload,
-            response: body,
+            response: '[Response too large]',
             timestamp: startTime
           }, '*');
-        }).catch(() => {
-          window.postMessage({
-            source: 'taillog-extension',
-            type: 'network',
-            url: url,
-            method: method.toUpperCase(),
-            statusCode: response.status,
-            payload: payload,
-            response: '[Unable to read response]',
-            timestamp: startTime
-          }, '*');
-        });
+        } else {
+          clonedResponse.text().then(body => {
+            window.postMessage({
+              source: 'taillog-extension',
+              type: 'network',
+              url: url,
+              method: method.toUpperCase(),
+              statusCode: response.status,
+              payload: payload,
+              response: body.length > MAX_SIZE ? body.slice(0, MAX_SIZE) + '\n...[Truncated]' : body,
+              timestamp: startTime
+            }, '*');
+          }).catch(() => {
+            window.postMessage({
+              source: 'taillog-extension',
+              type: 'network',
+              url: url,
+              method: method.toUpperCase(),
+              statusCode: response.status,
+              payload: payload,
+              response: '[Unable to read response]',
+              timestamp: startTime
+            }, '*');
+          });
+        }
       }
       
       return response;
