@@ -88,7 +88,7 @@ const LocatorTab = () => {
           </div>
           <div className="info-item">
             <span className="info-dot orange"></span>
-            <span>Server Component (RSC) - search by name</span>
+            <span>No source available - copy component name</span>
           </div>
           <div className="info-item">
             <span className="info-dot gray"></span>
@@ -102,8 +102,8 @@ const LocatorTab = () => {
             <span>React 17+ in development mode</span>
           </div>
           <div className="tip-item">
-            <span className="tip-label">Zero Config</span>
-            <span>No Babel plugin needed</span>
+            <span className="tip-label">Fiber Based</span>
+            <span>Uses React internals</span>
           </div>
           <div className="tip-item">
             <span className="tip-label">Works with</span>
@@ -112,7 +112,7 @@ const LocatorTab = () => {
         </div>
 
         <footer className="locator-footer">
-          <span>Feedback: <a href="mailto:hbd9425@gmail.com">hbd9425@gmail.com</a></span>
+          Made by <a href="https://github.com/justart-dev/react-devtools-extension" target="_blank" rel="noopener noreferrer">justart-dev</a>
         </footer>
       </div>
     </div>

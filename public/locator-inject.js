@@ -96,7 +96,7 @@
             lineNumber: null,
             columnNumber: null,
             componentName: name,
-            isRSC: true
+            noSourceAvailable: true
           };
         }
       }
@@ -159,8 +159,8 @@
     overlay.style.height = rect.height + 'px';
 
     if (source) {
-      if (source.isRSC) {
-        label.textContent = `${source.componentName} (RSC)`;
+      if (source.noSourceAvailable) {
+        label.textContent = `${source.componentName} (no source)`;
         overlay.style.borderColor = '#f59e0b';
         overlay.style.background = 'rgba(245, 158, 11, 0.1)';
         label.style.background = '#f59e0b';
@@ -204,10 +204,10 @@
 
   // Generate IDE URL
   function generateIDEUrl(source) {
-    const { fileName, lineNumber, columnNumber, isRSC } = source;
+    const { fileName, lineNumber, columnNumber, noSourceAvailable } = source;
 
-    if (isRSC || !fileName) {
-      // RSC or no source - return null, will show notification with component name
+    if (noSourceAvailable || !fileName) {
+      // No source available - return null, will show notification with component name
       return null;
     }
 

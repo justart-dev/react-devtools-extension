@@ -26,11 +26,70 @@ A lightweight Chrome extension for web developers to monitor console logs, netwo
 - Re-copy with a single click
 
 ### Locator (React Component Inspector)
-- **Zero Configuration** - No Babel plugin or setup required (React 17+ only)
 - **Alt + Hover**: Highlight React components and see component name with source location
 - **Alt + Click**: Open the component source file directly in your IDE
 - Supported IDEs: VSCode, Cursor, Windsurf, IntelliJ IDEA, Antigravity
-- Supports RSC (React Server Components)
+
+## Notice: Component Locator Requirements
+
+The **Locator** feature requires `_debugSource` information embedded in React components. This is only available in **development builds** with proper configuration.
+
+### Works Out of the Box
+| Framework | Condition |
+|-----------|-----------|
+| **Create React App** | Development mode (`npm start`) |
+| **Next.js** | Development mode (`npm run dev`) |
+| **Remix** | Development mode |
+
+### Requires Additional Configuration
+
+#### Vite + React
+
+Vite does not include `_debugSource` by default. Add the Babel plugin:
+
+1. Install the plugin:
+   ```bash
+   npm install -D @babel/plugin-transform-react-jsx-source
+   ```
+
+2. Update `vite.config.ts`:
+   ```ts
+   import { defineConfig } from 'vite'
+   import react from '@vitejs/plugin-react'
+
+   export default defineConfig({
+     plugins: [
+       react({
+         babel: {
+           plugins: ['@babel/plugin-transform-react-jsx-source']
+         }
+       })
+     ]
+   })
+   ```
+
+3. Restart the dev server
+
+#### Custom Webpack Setup
+
+Add the Babel plugin to your `.babelrc` or `babel.config.js`:
+```json
+{
+  "plugins": ["@babel/plugin-transform-react-jsx-source"]
+}
+```
+
+### Does Not Work
+- **Production builds** - Source information is stripped for optimization
+- **Minified code** - Component names are mangled
+- **Server Components (RSC)** - No client-side fiber information available
+
+### Indicator Colors
+| Color | Meaning |
+|-------|---------|
+| Blue | Source available - click to open in IDE |
+| Orange | No source info - component name will be copied |
+| Gray | No React component detected |
 
 ## Installation
 
@@ -89,6 +148,5 @@ See [개인정보처리방침](PRIVACY_POLICY_KO.md) for more details.
 MIT License
 
 ## Contact
+Email: hbd9425@gmail.com
 
-- Email: hbd9425@gmail.com
-- GitHub: https://github.com/justart-dev/react-devtools-extension
