@@ -310,11 +310,7 @@
       return;
     }
 
-    // Debug log
-    console.log('[Taillog Locator] Source:', source);
-
     const url = generateIDEUrl(source);
-    console.log('[Taillog Locator] Generated URL:', url);
 
     if (url) {
       showNotification(`Opening: ${source.fileName}:${source.lineNumber}`);
@@ -360,7 +356,7 @@
         Object.keys(document.body).some(k => k.startsWith('__react'));
 
       if (!hasReact) {
-        console.log('[Taillog Locator] React not detected on this page');
+        // React not detected
       }
     }, 1000);
   }
@@ -373,8 +369,6 @@
     if (event.data.type === 'settings') {
       preferredIDE = event.data.ide || 'vscode';
       isEnabled = event.data.enabled !== false;
-
-      console.log('[Taillog Locator] Settings updated:', { preferredIDE, isEnabled });
 
       if (!isEnabled) {
         isLocatorActive = false;
