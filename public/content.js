@@ -48,7 +48,19 @@ window.addEventListener('message', function(event) {
     return;
   }
   try {
-    chrome.runtime.sendMessage(event.data);
+    // 배치 메시지 처리
+    if (event.data.type === 'batch' && Array.isArray(event.data.messages)) {
+      event.data.messages.forEach(msg => {
+        try {
+          chrome.runtime.sendMessage({
+            source: 'taillog-extension',
+            ...msg
+          });
+        } catch(e) {}
+      });
+    } else {
+      chrome.runtime.sendMessage(event.data);
+    }
   } catch(e) {}
 });
 
