@@ -228,7 +228,8 @@
       /facebook\.com\/tr/i,
       /doubleclick\.net/i,
       /\.chunk\.js(\?.*)?$/i,
-      /\.bundle\.js(\?.*)?$/i
+      /\.bundle\.js(\?.*)?$/i,
+      /\.min\.js(\?.*)?$/i
     ],
 
     whitelistPatterns: [
@@ -516,7 +517,11 @@
 
           let responseData;
           try {
-            if (xhr.responseType === '' || xhr.responseType === 'text') {
+            // Content-Length 체크 (안전장치)
+            const contentLength = xhr.getResponseHeader('Content-Length');
+            if (contentLength && parseInt(contentLength) > CONFIG.MAX_RESPONSE_SIZE) {
+              responseData = '[Too large: ' + formatSize(contentLength) + ']';
+            } else if (xhr.responseType === '' || xhr.responseType === 'text') {
               const text = xhr.responseText || '';
               responseData = text.length > CONFIG.MAX_RESPONSE_SIZE
                 ? text.slice(0, CONFIG.MAX_RESPONSE_SIZE) + '\n...[Truncated]'

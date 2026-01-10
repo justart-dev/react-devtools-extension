@@ -19,6 +19,12 @@ A lightweight Chrome extension for web developers to monitor console logs, netwo
 - Filter by HTTP methods (GET, POST, PUT, DELETE)
 - Search requests by URL
 - One-click copy for Payload and Response data
+- **Smart Capture**: Automatically handles large responses (>100KB truncated) to prevent browser freezing
+
+### Performance & Safety
+- **Circuit Breaker**: Automatically pauses capturing if too many errors occur
+- **Rate Limiting**: Prevents flooding from excessive network requests
+- **Optimized**: Ignores heavy assets (min.js, images, binary files) for smooth performance
 
 ### Stash Tab
 - Automatically captures copied text
@@ -26,8 +32,8 @@ A lightweight Chrome extension for web developers to monitor console logs, netwo
 - Re-copy with a single click
 
 ### Locator (React Component Inspector)
-- **Alt + Hover**: Highlight React components and see component name with source location
-- **Alt + Click**: Open the component source file directly in your IDE
+- **Alt (Option) + Hover**: Highlight React components and see component name with source location
+- **Alt (Option) + Click**: Open the component source file directly in your IDE
 - Supported IDEs: VSCode, Cursor, Windsurf, IntelliJ IDEA, Antigravity
 
 ## Notice: Component Locator Requirements

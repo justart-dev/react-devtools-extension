@@ -24,6 +24,12 @@ Network Tab
 • Filter by GET, POST, PUT, DELETE methods
 • Search by URL to quickly find specific requests
 • Copy request Payload and Response with one click
+• Smart Capture: Safe handling of large responses (>100KB) to prevent freezes
+
+Performance & Safety
+• Circuit Breaker & Rate Limiting for stability
+• Automatically ignores heavy assets (min.js, binary)
+
 
 Stash Tab
 • Automatically saves copied text
@@ -32,8 +38,8 @@ Stash Tab
 
 Locator (React Component Inspector)
 • Zero Configuration - No Babel plugin required (React 17+)
-• Alt + Hover to highlight React components with source location
-• Alt + Click to open component source file in your IDE
+• Alt (Option) + Hover to highlight React components with source location
+• Alt (Option) + Click to open component source file in your IDE
 • Supports VSCode, Cursor, Windsurf, IntelliJ IDEA, Antigravity
 • Supports RSC (React Server Components)
 
