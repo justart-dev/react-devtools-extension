@@ -1,66 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import { Terminal, Globe, History, MousePointer2, Maximize2 } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  Globe,
+  History,
+  Maximize2,
+  MousePointer2,
+  PlugZap,
+  Terminal,
+} from 'lucide-react';
 import ConsoleTab from './components/ConsoleTab';
 import NetworkTab from './components/NetworkTab';
 import StashTab from './components/StashTab';
 import LocatorTab from './components/LocatorTab';
 import './App.css';
 
+const PRIMARY_TABS = [
+  { id: 'console', label: 'Console', icon: Terminal },
+  { id: 'network', label: 'Network', icon: Globe },
+];
+
+const UTILITY_TABS = [
+  { id: 'stash', label: 'Stash', icon: History },
+  { id: 'locator', label: 'Locator', icon: MousePointer2 },
+];
+
 function App() {
-  const [activeTab, setActiveTab] = useState('console');
+  const [activeTab, setActiveTab] = useState('network');
   const [logs, setLogs] = useState([]);
   const [requests, setRequests] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
 
-  // 별도 윈도우에서 열렸는지 감지
   const isStandaloneWindow = window.location.search.includes('window=true');
+  const extensionChrome = globalThis.chrome;
 
-  // 별도 윈도우에서 열렸으면 body에 클래스 추가
   useEffect(() => {
     if (isStandaloneWindow) {
       document.body.classList.add('standalone-window');
     }
+
     return () => {
       document.body.classList.remove('standalone-window');
     };
   }, [isStandaloneWindow]);
 
-  // 별도 창으로 열기
   const openInWindow = () => {
-    if (typeof chrome !== 'undefined' && chrome.windows) {
-      chrome.windows.create({
-        url: chrome.runtime.getURL('index.html?window=true'),
+    if (extensionChrome?.windows) {
+      extensionChrome.windows.create({
+        url: extensionChrome.runtime.getURL('index.html?window=true'),
         type: 'popup',
-        width: 600,
-        height: 700
+        width: 880,
+        height: 760,
       });
       window.close();
     }
   };
 
   useEffect(() => {
-    if (typeof chrome === 'undefined' || !chrome.runtime || !chrome.runtime.connect) {
+    if (!extensionChrome?.runtime?.connect) {
       return;
     }
 
-    // 현재 활성 탭 찾기
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const activeTabId = tabs[0]?.id;
-      if (!activeTabId) return;
+    let cleanup;
 
-      const port = chrome.runtime.connect({ name: "popup-panel" });
-      
-      // 초기화 및 디버거 연결 요청
-      port.postMessage({ name: "init", tabId: activeTabId });
-      port.postMessage({ name: "getAll" });
-      
+    extensionChrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeChromeTabId = tabs[0]?.id;
+      if (!activeChromeTabId) {
+        setIsConnected(false);
+        return;
+      }
+
+      const port = extensionChrome.runtime.connect({ name: 'popup-panel' });
+      port.postMessage({ name: 'init', tabId: activeChromeTabId });
+      port.postMessage({ name: 'getAll' });
       setIsConnected(true);
 
       const messageListener = (msg) => {
         if (msg.type === 'console') {
-          setLogs(prev => [...prev, msg].slice(-100));
+          setLogs((prev) => [...prev, msg].slice(-200));
         } else if (msg.type === 'network') {
-          setRequests(prev => [...prev, msg].slice(-100));
+          setRequests((prev) => [...prev, msg].slice(-200));
         } else if (msg.type === 'allData') {
           setLogs(msg.logs || []);
           setRequests(msg.requests || []);
@@ -69,65 +86,101 @@ function App() {
 
       port.onMessage.addListener(messageListener);
 
-      return () => {
+      cleanup = () => {
         port.onMessage.removeListener(messageListener);
         port.disconnect();
       };
     });
 
-  }, []);
+    return () => cleanup?.();
+  }, [extensionChrome]);
+
+  const counts = useMemo(
+    () => ({
+      console: logs.length,
+      network: requests.length,
+    }),
+    [logs.length, requests.length]
+  );
+
+  const renderTab = () => {
+    switch (activeTab) {
+      case 'console':
+        return <ConsoleTab logs={logs} isConnected={isConnected} />;
+      case 'network':
+        return <NetworkTab requests={requests} isConnected={isConnected} />;
+      case 'stash':
+        return <StashTab />;
+      case 'locator':
+        return <LocatorTab />;
+      default:
+        return null;
+    }
+  };
+
+  const renderNavButton = (tab, isUtility = false) => {
+    const Icon = tab.icon;
+
+    return (
+      <button
+        key={tab.id}
+        className={`nav-item ${isUtility ? 'utility' : ''} ${activeTab === tab.id ? 'active' : ''}`}
+        onClick={() => setActiveTab(tab.id)}
+      >
+        <Icon size={16} />
+        <span className="nav-copy">{tab.label}</span>
+      </button>
+    );
+  };
 
   return (
-    <div className="app-container">
-      <nav className="nav-bar">
-        <div className="nav-tabs">
-          <button
-            className={`nav-item ${activeTab === 'console' ? 'active' : ''}`}
-            onClick={() => setActiveTab('console')}
-          >
-            <Terminal size={18} />
-            <span>Console</span>
-          </button>
-          <button
-            className={`nav-item ${activeTab === 'network' ? 'active' : ''}`}
-            onClick={() => setActiveTab('network')}
-          >
-            <Globe size={18} />
-            <span>Network</span>
-          </button>
-          <button
-            className={`nav-item ${activeTab === 'stash' ? 'active' : ''}`}
-            onClick={() => setActiveTab('stash')}
-          >
-            <History size={18} />
-            <span>Stash</span>
-          </button>
-          <button
-            className={`nav-item ${activeTab === 'locator' ? 'active' : ''}`}
-            onClick={() => setActiveTab('locator')}
-          >
-            <MousePointer2 size={18} />
-            <span>Locator</span>
-          </button>
+    <div className="app-shell">
+      <nav className="top-nav">
+        <div className="nav-brand">
+          <div className={`connection-dot ${isConnected ? 'live' : ''}`} aria-hidden="true" />
+          <div>
+            <span className="brand-title">Taillog</span>
+            <span className="brand-subtitle">
+              {isConnected ? 'Live debugging panel' : 'Waiting for active tab'}
+            </span>
+          </div>
         </div>
-        {!isStandaloneWindow && (
-          <button
-            className="open-window-btn"
-            onClick={openInWindow}
-            title="별도 창으로 열기"
-          >
-            <Maximize2 size={16} />
-          </button>
-        )}
+
+        <div className="nav-groups">
+          <div className="nav-tabs">{PRIMARY_TABS.map((tab) => renderNavButton(tab))}</div>
+          <div className="nav-divider" />
+          <div className="nav-tabs utility-tabs">
+            {UTILITY_TABS.map((tab) => renderNavButton(tab, true))}
+          </div>
+        </div>
+
+        <div className="nav-actions">
+          {!isStandaloneWindow && (
+            <button
+              className="chrome-action"
+              onClick={openInWindow}
+              title="Open in separate window"
+              aria-label="Open in separate window"
+            >
+              <Maximize2 size={16} />
+            </button>
+          )}
+        </div>
       </nav>
-      
-      <main className="content-area">
-        {!isConnected && <div className="connection-status">Connecting to tab...</div>}
-        {activeTab === 'console' && <ConsoleTab logs={logs} />}
-        {activeTab === 'network' && <NetworkTab requests={requests} />}
-        {activeTab === 'stash' && <StashTab />}
-        {activeTab === 'locator' && <LocatorTab />}
-      </main>
+
+      <div className="shell-statusbar">
+        <div className="status-pill">
+          <PlugZap size={14} />
+          <span>{isConnected ? 'Connected to current tab' : 'No active page connection'}</span>
+        </div>
+        <div className="status-pill quiet">
+          <span>{counts.network} requests</span>
+          <span className="status-separator" />
+          <span>{counts.console} logs</span>
+        </div>
+      </div>
+
+      <main className="tab-frame">{renderTab()}</main>
     </div>
   );
 }

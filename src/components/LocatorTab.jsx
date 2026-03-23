@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
-import { MousePointer2, Monitor } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Monitor, MousePointer2, TriangleAlert } from 'lucide-react';
+import PanelHeader from './ui/PanelHeader';
+import SummaryBar from './ui/SummaryBar';
 import './LocatorTab.css';
 
 const IDES = [
@@ -7,115 +9,121 @@ const IDES = [
   { id: 'cursor', name: 'Cursor' },
   { id: 'windsurf', name: 'Windsurf' },
   { id: 'idea', name: 'IntelliJ' },
-  { id: 'antigravity', name: 'Antigravity' }
+  { id: 'antigravity', name: 'Antigravity' },
 ];
 
 const LocatorTab = () => {
   const [preferredIDE, setPreferredIDE] = useState('vscode');
   const [isEnabled, setIsEnabled] = useState(true);
+  const extensionChrome = globalThis.chrome;
 
   useEffect(() => {
-    if (typeof chrome === 'undefined' || !chrome.storage) return;
+    if (!extensionChrome?.storage) return;
 
-    chrome.storage.local.get(['preferredIDE', 'locatorEnabled'], (result) => {
+    extensionChrome.storage.local.get(['preferredIDE', 'locatorEnabled'], (result) => {
       if (result.preferredIDE) setPreferredIDE(result.preferredIDE);
       if (result.locatorEnabled !== undefined) setIsEnabled(result.locatorEnabled);
     });
-  }, []);
+  }, [extensionChrome]);
 
   const handleIDEChange = (ide) => {
     setPreferredIDE(ide);
-    if (typeof chrome !== 'undefined' && chrome.storage) {
-      chrome.storage.local.set({ preferredIDE: ide });
+    if (extensionChrome?.storage) {
+      extensionChrome.storage.local.set({ preferredIDE: ide });
     }
   };
 
   const handleToggle = () => {
-    const newState = !isEnabled;
-    setIsEnabled(newState);
-    if (typeof chrome !== 'undefined' && chrome.storage) {
-      chrome.storage.local.set({ locatorEnabled: newState });
+    const nextState = !isEnabled;
+    setIsEnabled(nextState);
+    if (extensionChrome?.storage) {
+      extensionChrome.storage.local.set({ locatorEnabled: nextState });
     }
   };
 
-  return (
-    <div className="locator-container animate-fade-in">
-      <header className="toolbar">
-        <div className="toolbar-info">
-          <MousePointer2 size={16} />
-          <span>Component Locator</span>
-        </div>
-        <button
-          className={`toggle-btn ${isEnabled ? 'active' : ''}`}
-          onClick={handleToggle}
-        >
-          {isEnabled ? 'ON' : 'OFF'}
-        </button>
-      </header>
+  const summaryItems = [
+    { label: 'Status', value: isEnabled ? 'Enabled' : 'Paused', tone: isEnabled ? 'success' : 'warning' },
+    { label: 'Open with', value: IDES.find((ide) => ide.id === preferredIDE)?.name || 'VS Code' },
+    { label: 'Trigger', value: 'Alt/Option + Hover', tone: 'neutral' },
+  ];
 
-      <div className="locator-content">
-        <section className="settings-section">
-          <h4><Monitor size={14} /> Open With</h4>
+  return (
+    <section className="panel-shell">
+      <PanelHeader
+        eyebrow="Utility"
+        title="React component locator settings"
+        description="Keep the setup light: one toggle, one editor preference, and only the instructions that matter when you need them."
+        actions={
+          <button className={`locator-toggle ${isEnabled ? 'active' : ''}`} onClick={handleToggle}>
+            {isEnabled ? 'ON' : 'OFF'}
+          </button>
+        }
+      />
+
+      <SummaryBar items={summaryItems} />
+
+      <div className="locator-layout">
+        <div className="locator-card notice">
+          <div className="notice-icon">
+            <TriangleAlert size={16} />
+          </div>
+          <div>
+            <h3>Works in development builds with React source metadata available.</h3>
+            <p>Use Alt or Option to inspect components, then click to jump into your editor when source info exists.</p>
+          </div>
+        </div>
+
+        <div className="locator-card">
+          <div className="section-heading">
+            <Monitor size={14} />
+            <span>Preferred editor</span>
+          </div>
           <div className="ide-grid">
-            {IDES.map((ide, index) => (
+            {IDES.map((ide) => (
               <button
                 key={ide.id}
-                className={`ide-btn ${preferredIDE === ide.id ? 'selected' : ''} ${index === 0 ? 'wide' : ''}`}
+                className={`ide-choice ${preferredIDE === ide.id ? 'selected' : ''}`}
                 onClick={() => handleIDEChange(ide.id)}
               >
                 {ide.name}
               </button>
             ))}
           </div>
-        </section>
-
-        <section className="usage-section">
-          <h4>How to Use</h4>
-          <ol>
-            <li>
-              <kbd>Alt</kbd> (or <kbd>Option</kbd> on Mac) Hold
-            </li>
-            <li>Hover over React components to highlight</li>
-            <li>Click to open source in your IDE</li>
-          </ol>
-        </section>
-
-        <section className="info-section">
-          <h4>Highlight Info</h4>
-          <div className="info-item">
-            <span className="info-dot blue"></span>
-            <span>Client Component - direct source link</span>
-          </div>
-          <div className="info-item">
-            <span className="info-dot orange"></span>
-            <span>No source available - copy component name</span>
-          </div>
-          <div className="info-item">
-            <span className="info-dot gray"></span>
-            <span>No React component detected</span>
-          </div>
-        </section>
-
-        <div className="tips-section">
-          <div className="tip-item">
-            <span className="tip-label">Requires</span>
-            <span>React 17+ in development mode</span>
-          </div>
-          <div className="tip-item">
-            <span className="tip-label">Fiber Based</span>
-            <span>Uses React internals</span>
-          </div>
-          <div className="tip-item">
-            <span className="tip-label">Works with</span>
-            <span>Next.js, Vite, CRA, Remix</span>
-          </div>
         </div>
 
-        <footer className="locator-footer">
-          Made by <a href="https://github.com/justart-dev/react-devtools-extension" target="_blank" rel="noopener noreferrer">justart-dev</a>
-        </footer>
+        <div className="locator-card">
+          <div className="section-heading">
+            <MousePointer2 size={14} />
+            <span>How to use</span>
+          </div>
+          <ol className="usage-list">
+            <li>Hold Alt or Option.</li>
+            <li>Hover over a React component to reveal the highlight overlay.</li>
+            <li>Click the highlighted area to open the source file in your selected editor.</li>
+          </ol>
+        </div>
+
+        <div className="locator-card compact">
+          <div className="section-heading">
+            <span>Limits</span>
+          </div>
+          <div className="fact-list">
+            <div className="fact-row">
+              <span>Runtime</span>
+              <strong>React 17+ development mode</strong>
+            </div>
+            <div className="fact-row">
+              <span>Best with</span>
+              <strong>Next.js, Vite, CRA, Remix</strong>
+            </div>
+            <div className="fact-row">
+              <span>When unavailable</span>
+              <strong>Production builds or stripped source metadata</strong>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

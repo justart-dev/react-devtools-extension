@@ -1,54 +1,71 @@
-import { useState, useEffect, useRef } from 'react';
-import { Archive, Copy, Trash2, Check } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Check, Copy, Trash2 } from 'lucide-react';
+import PanelHeader from './ui/PanelHeader';
+import SummaryBar from './ui/SummaryBar';
+import EmptyState from './ui/EmptyState';
 import './StashTab.css';
+
+const MAX_PREVIEW_LENGTH = 220;
 
 const StashTab = () => {
   const [stashHistory, setStashHistory] = useState([]);
   const [copiedIndex, setCopiedIndex] = useState(null);
   const textareaRef = useRef(null);
+  const extensionChrome = globalThis.chrome;
 
   useEffect(() => {
-    // Load saved stash history
-    if (typeof chrome !== 'undefined' && chrome.storage) {
-      chrome.storage.local.get(['clipboardHistory'], (result) => {
-        if (result.clipboardHistory) {
-          setStashHistory(result.clipboardHistory);
-        }
-      });
-
-      // Listen for storage changes (real-time updates)
-      const storageListener = (changes, areaName) => {
-        if (areaName === 'local' && changes.clipboardHistory) {
-          setStashHistory(changes.clipboardHistory.newValue || []);
-        }
-      };
-      chrome.storage.onChanged.addListener(storageListener);
-
-      return () => {
-        chrome.storage.onChanged.removeListener(storageListener);
-      };
+    if (!extensionChrome?.storage) {
+      return;
     }
-  }, []);
+
+    extensionChrome.storage.local.get(['clipboardHistory'], (result) => {
+      if (result.clipboardHistory) {
+        setStashHistory(result.clipboardHistory);
+      }
+    });
+
+    const storageListener = (changes, areaName) => {
+      if (areaName === 'local' && changes.clipboardHistory) {
+        setStashHistory(changes.clipboardHistory.newValue || []);
+      }
+    };
+
+    extensionChrome.storage.onChanged.addListener(storageListener);
+
+    return () => {
+      extensionChrome.storage.onChanged.removeListener(storageListener);
+    };
+  }, [extensionChrome]);
+
+  const orderedHistory = useMemo(
+    () =>
+      [...stashHistory].sort((a, b) => {
+        const aTime = new Date(a.timestamp || 0).getTime();
+        const bTime = new Date(b.timestamp || 0).getTime();
+        return bTime - aTime;
+      }),
+    [stashHistory]
+  );
 
   const saveToStorage = (history) => {
-    if (typeof chrome !== 'undefined' && chrome.storage) {
-      chrome.storage.local.set({ clipboardHistory: history });
+    if (extensionChrome?.storage) {
+      extensionChrome.storage.local.set({ clipboardHistory: history });
     }
   };
 
   const copyToClipboard = (content, index) => {
     const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.value = content;
-      textarea.select();
-      document.execCommand('copy');
-      setCopiedIndex(index);
-      setTimeout(() => setCopiedIndex(null), 2000);
-    }
+    if (!textarea) return;
+
+    textarea.value = content;
+    textarea.select();
+    document.execCommand('copy');
+    setCopiedIndex(index);
+    window.setTimeout(() => setCopiedIndex(null), 2000);
   };
 
   const deleteItem = (id) => {
-    const newHistory = stashHistory.filter(item => item.id !== id);
+    const newHistory = stashHistory.filter((item) => item.id !== id);
     setStashHistory(newHistory);
     saveToStorage(newHistory);
   };
@@ -59,89 +76,89 @@ const StashTab = () => {
   };
 
   const formatContent = (content) => {
-    if (content.length > 200) {
-      return content.substring(0, 200) + '...';
+    if (content.length <= MAX_PREVIEW_LENGTH) {
+      return content;
     }
-    return content;
+
+    return `${content.slice(0, MAX_PREVIEW_LENGTH)}...`;
   };
 
   const getHostname = (url) => {
     try {
       return new URL(url).hostname;
     } catch {
-      return '';
+      return 'Unknown source';
     }
   };
 
+  const summaryItems = [
+    { label: 'Status', value: 'Auto capture on', tone: 'success' },
+    { label: 'Saved', value: stashHistory.length.toString() },
+    { label: 'Retention', value: 'Last 10 items', tone: 'neutral' },
+  ];
+
   return (
-    <div className="stash-container animate-fade-in">
+    <section className="panel-shell">
+      <PanelHeader
+        eyebrow="Utility"
+        title="Clipboard history for quick re-use"
+        description="Keep recent copied snippets close by without competing with the main debugging feeds."
+        actions={
+          <button className="utility-button danger" onClick={clearAll} disabled={stashHistory.length === 0}>
+            Clear all
+          </button>
+        }
+      />
+
+      <SummaryBar items={summaryItems} />
+
       <textarea
         ref={textareaRef}
-        style={{
-          position: 'absolute',
-          left: '-9999px',
-          top: '-9999px',
-        }}
+        style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}
         aria-hidden="true"
       />
 
-      <header className="toolbar">
-        <div className="toolbar-info">
-          <span>Auto-captured: {stashHistory.length} items</span>
-          <span className="max-hint">Keeps last 10 captured</span>
-        </div>
-        <button
-          className="action-btn clear"
-          onClick={clearAll}
-          disabled={stashHistory.length === 0}
-        >
-          <span>Clear</span>
-        </button>
-      </header>
-
       <div className="stash-list">
-        {stashHistory.map((item, index) => (
-          <div key={item.id} className="stash-item">
-            <div className="item-meta">
-              <div className="meta-left">
-                {item.url && (
-                  <span className="source-url">{getHostname(item.url)}</span>
-                )}
-                <span className="timestamp">
+        {orderedHistory.map((item, index) => (
+          <article key={item.id} className="stash-row">
+            <div className="stash-topline">
+              <div className="stash-source">
+                <span className="stash-host">{getHostname(item.url)}</span>
+                <span className="stash-time">
                   {new Date(item.timestamp).toLocaleTimeString('en-US', { hour12: false })}
                 </span>
               </div>
-              <div className="item-actions">
+
+              <div className="stash-actions">
                 <button
-                  className={`icon-btn ${copiedIndex === index ? 'copied' : ''}`}
+                  className={`icon-action ${copiedIndex === index ? 'copied' : ''}`}
                   onClick={() => copyToClipboard(item.content, index)}
-                  title="Copy"
+                  aria-label="Copy stash item"
                 >
                   {copiedIndex === index ? <Check size={14} /> : <Copy size={14} />}
                 </button>
                 <button
-                  className="icon-btn delete"
+                  className="icon-action delete"
                   onClick={() => deleteItem(item.id)}
-                  title="Delete"
+                  aria-label="Delete stash item"
                 >
                   <Trash2 size={14} />
                 </button>
               </div>
             </div>
-            <div className="item-content">
-              <pre>{formatContent(item.content)}</pre>
-            </div>
-          </div>
+
+            <pre className="stash-preview mono-text">{formatContent(item.content)}</pre>
+          </article>
         ))}
-        {stashHistory.length === 0 && (
-          <div className="empty-state">
-            <img src="/assets/space.png" alt="No stash" className="empty-image" />
-            <p>No stashed items</p>
-            <span className="hint">Copy text on any webpage to stash it automatically</span>
-          </div>
+
+        {orderedHistory.length === 0 && (
+          <EmptyState
+            title="Nothing in your stash yet"
+            description="Copy text on any page and Taillog will keep the latest entries ready for a quick paste-back."
+          />
         )}
       </div>
-    </div>
+    </section>
   );
 };
 
