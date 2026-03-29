@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
+  --popup-width: 520px;
+  --popup-height: 640px;
   --bg-app: #07090d;
   --bg-primary: #0d1117;
   --bg-secondary: #11161e;
@@ -40,13 +42,18 @@
 html,
 body,
 #root {
-  width: 100%;
-  height: 100%;
+  width: var(--popup-width);
+  height: var(--popup-height);
+  overflow-x: hidden;
+  background: var(--bg-app);
 }
 
 body {
-  width: 520px;
-  height: 640px;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   background:
@@ -54,6 +61,13 @@ body {
     linear-gradient(180deg, #0b0e13 0%, #07090d 100%);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+}
+
+html.standalone-window,
+body.standalone-window,
+html.standalone-window #root {
+  width: 100%;
+  height: 100%;
 }
 
 body.standalone-window {
@@ -79,16 +93,17 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 999px;
+  border: 2px solid var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 ::selection {

@@ -5,7 +5,6 @@
 }
 
 .console-row {
-  margin: 0 12px;
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -15,7 +14,7 @@
   align-items: flex-start;
   width: 100%;
   gap: 14px;
-  padding: 14px 8px;
+  padding: 14px 20px;
   background: transparent;
   border: none;
   color: inherit;
@@ -94,7 +93,7 @@
 }
 
 .console-detail {
-  margin: 0 8px 14px 92px;
+  margin: 0 20px 14px 92px;
   padding: 12px 14px;
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
@@ -109,4 +108,20 @@
   word-break: break-word;
   max-height: 220px;
   overflow-y: auto;
+}
+
+@media (min-width: 900px) {
+  body.standalone-window .console-row-button {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  body.standalone-window .console-detail {
+    margin-right: 24px;
+    max-width: calc(100% - 120px);
+  }
+
+  body.standalone-window .console-detail pre {
+    max-height: 320px;
+  }
 }

@@ -124,3 +124,19 @@
   font-size: 12px;
   line-height: 1.5;
 }
+
+body.standalone-window .panel-header {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+body.standalone-window .summary-bar {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+@media (min-width: 900px) {
+  body.standalone-window .panel-header p {
+    max-width: 760px;
+  }
+}

@@ -30,11 +30,11 @@
 .stash-list {
   flex: 1;
   overflow-y: auto;
-  padding: 10px 12px 18px;
+  padding: 10px 0 18px;
 }
 
 .stash-row {
-  padding: 14px 12px;
+  padding: 14px 20px;
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -118,4 +118,19 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  body.standalone-window .stash-row {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  body.standalone-window .stash-source {
+    gap: 14px;
+  }
+
+  body.standalone-window .stash-preview {
+    -webkit-line-clamp: 4;
+  }
 }
