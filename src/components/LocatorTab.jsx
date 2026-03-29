@@ -12,7 +12,7 @@ const IDES = [
   { id: 'antigravity', name: 'Antigravity' },
 ];
 
-const LocatorTab = () => {
+const LocatorTab = ({ t }) => {
   const [preferredIDE, setPreferredIDE] = useState('vscode');
   const [isEnabled, setIsEnabled] = useState(true);
   const extensionChrome = globalThis.chrome;
@@ -42,20 +42,20 @@ const LocatorTab = () => {
   };
 
   const summaryItems = [
-    { label: 'Status', value: isEnabled ? 'Enabled' : 'Paused', tone: isEnabled ? 'success' : 'warning' },
-    { label: 'Open with', value: IDES.find((ide) => ide.id === preferredIDE)?.name || 'VS Code' },
-    { label: 'Trigger', value: 'Alt/Option + Hover', tone: 'neutral' },
+    { label: t('locator.summaryStatus'), value: isEnabled ? t('locator.enabled') : t('locator.paused'), tone: isEnabled ? 'success' : 'warning' },
+    { label: t('locator.summaryOpenWith'), value: IDES.find((ide) => ide.id === preferredIDE)?.name || 'VS Code' },
+    { label: t('locator.summaryTrigger'), value: t('locator.triggerValue'), tone: 'neutral' },
   ];
 
   return (
     <section className="panel-shell">
       <PanelHeader
-        eyebrow="Utility"
-        title="React component locator settings"
-        description="Keep the setup light: one toggle, one editor preference, and only the instructions that matter when you need them."
+        eyebrow={t('locator.eyebrow')}
+        title={t('locator.title')}
+        description={t('locator.description')}
         actions={
           <button className={`locator-toggle ${isEnabled ? 'active' : ''}`} onClick={handleToggle}>
-            {isEnabled ? 'ON' : 'OFF'}
+            {isEnabled ? t('common.on') : t('common.off')}
           </button>
         }
       />
@@ -68,15 +68,15 @@ const LocatorTab = () => {
             <TriangleAlert size={16} />
           </div>
           <div>
-            <h3>Works in development builds with React source metadata available.</h3>
-            <p>Use Alt or Option to inspect components, then click to jump into your editor when source info exists.</p>
+            <h3>{t('locator.noticeTitle')}</h3>
+            <p>{t('locator.noticeDescription')}</p>
           </div>
         </div>
 
         <div className="locator-card">
           <div className="section-heading">
             <Monitor size={14} />
-            <span>Preferred editor</span>
+            <span>{t('locator.preferredEditor')}</span>
           </div>
           <div className="ide-grid">
             {IDES.map((ide) => (
@@ -94,31 +94,31 @@ const LocatorTab = () => {
         <div className="locator-card">
           <div className="section-heading">
             <MousePointer2 size={14} />
-            <span>How to use</span>
+            <span>{t('locator.howToUse')}</span>
           </div>
           <ol className="usage-list">
-            <li>Hold Alt or Option.</li>
-            <li>Hover over a React component to reveal the highlight overlay.</li>
-            <li>Click the highlighted area to open the source file in your selected editor.</li>
+            <li>{t('locator.step1')}</li>
+            <li>{t('locator.step2')}</li>
+            <li>{t('locator.step3')}</li>
           </ol>
         </div>
 
         <div className="locator-card compact">
           <div className="section-heading">
-            <span>Limits</span>
+            <span>{t('locator.limits')}</span>
           </div>
           <div className="fact-list">
             <div className="fact-row">
-              <span>Runtime</span>
-              <strong>React 17+ development mode</strong>
+              <span>{t('locator.runtime')}</span>
+              <strong>{t('locator.runtimeValue')}</strong>
             </div>
             <div className="fact-row">
-              <span>Best with</span>
-              <strong>Next.js, Vite, CRA, Remix</strong>
+              <span>{t('locator.bestWith')}</span>
+              <strong>{t('locator.bestWithValue')}</strong>
             </div>
             <div className="fact-row">
-              <span>When unavailable</span>
-              <strong>Production builds or stripped source metadata</strong>
+              <span>{t('locator.unavailable')}</span>
+              <strong>{t('locator.unavailableValue')}</strong>
             </div>
           </div>
         </div>

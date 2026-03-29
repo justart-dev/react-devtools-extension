@@ -6,11 +6,11 @@ import EmptyState from './ui/EmptyState';
 import './NetworkTab.css';
 
 const FILTERS = [
-  { id: 'all', label: 'All' },
-  { id: 'get', label: 'GET' },
-  { id: 'post', label: 'POST' },
-  { id: 'put', label: 'PUT' },
-  { id: 'delete', label: 'DELETE' },
+  { id: 'all', labelKey: 'network.filters.all' },
+  { id: 'get', labelKey: 'network.filters.get' },
+  { id: 'post', labelKey: 'network.filters.post' },
+  { id: 'put', labelKey: 'network.filters.put' },
+  { id: 'delete', labelKey: 'network.filters.delete' },
 ];
 
 const formatJson = (data) => {
@@ -31,12 +31,12 @@ const getStatusTone = (statusCode) => {
   return 'warning';
 };
 
-const getPathname = (url) => {
+const getPathname = (url, t) => {
   try {
     const parsedUrl = new URL(url);
     return `${parsedUrl.pathname}${parsedUrl.search}`;
   } catch {
-    return url || 'Unknown request';
+    return url || t('network.unknownRequest');
   }
 };
 
@@ -72,7 +72,7 @@ const copyText = async (content, sectionId, setCopiedSection) => {
   }
 };
 
-const NetworkTab = ({ requests, isConnected }) => {
+const NetworkTab = ({ requests, isConnected, t, locale }) => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [expandedId, setExpandedId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -94,21 +94,21 @@ const NetworkTab = ({ requests, isConnected }) => {
 
   const summaryItems = [
     {
-      label: 'Connection',
-      value: isConnected ? 'Live' : 'Disconnected',
+      label: t('common.summaryConnection'),
+      value: isConnected ? t('common.live') : t('common.disconnected'),
       tone: isConnected ? 'success' : 'warning',
     },
-    { label: 'Visible', value: filteredRequests.length.toString() },
-    { label: 'Filter', value: activeFilter === 'all' ? 'All methods' : activeFilter.toUpperCase() },
-    { label: 'Search', value: searchQuery.trim() ? `"${searchQuery.trim()}"` : 'Not applied', tone: 'neutral' },
+    { label: t('common.summaryVisible'), value: filteredRequests.length.toString() },
+    { label: t('network.summaryFilter'), value: activeFilter === 'all' ? t('network.summaryAllMethods') : t(`network.filters.${activeFilter}`) },
+    { label: t('network.summarySearch'), value: searchQuery.trim() ? `"${searchQuery.trim()}"` : t('common.notApplied'), tone: 'neutral' },
   ];
 
   return (
     <section className="panel-shell">
       <PanelHeader
-        eyebrow="Primary feed"
-        title={isConnected ? 'Network requests from the current page' : 'Waiting for network activity'}
-        description="Keep the request list dense and readable, then expand only the entries you want to inspect."
+        eyebrow={t('network.eyebrow')}
+        title={isConnected ? t('network.titleLive') : t('network.titleIdle')}
+        description={t('network.description')}
       />
 
       <SummaryBar items={summaryItems} />
@@ -119,12 +119,12 @@ const NetworkTab = ({ requests, isConnected }) => {
             <Search size={14} />
             <input
               type="text"
-              placeholder="Search URL or path"
+              placeholder={t('network.searchPlaceholder')}
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
             />
             {searchQuery && (
-              <button className="search-clear" onClick={() => setSearchQuery('')} aria-label="Clear search">
+              <button className="search-clear" onClick={() => setSearchQuery('')} aria-label={t('network.clearSearch')}>
                 <X size={14} />
               </button>
             )}
@@ -132,7 +132,7 @@ const NetworkTab = ({ requests, isConnected }) => {
         </div>
 
         <div className="panel-toolbar-group">
-          <span className="toolbar-label">Methods</span>
+          <span className="toolbar-label">{t('network.methods')}</span>
           <div className="segmented-control">
             {FILTERS.map((filter) => (
               <button
@@ -140,7 +140,7 @@ const NetworkTab = ({ requests, isConnected }) => {
                 className={`segment ${activeFilter === filter.id ? 'active' : ''}`}
                 onClick={() => setActiveFilter(filter.id)}
               >
-                {filter.label}
+                {t(filter.labelKey)}
               </button>
             ))}
           </div>
@@ -152,7 +152,7 @@ const NetworkTab = ({ requests, isConnected }) => {
           const rowId = `${request.timestamp || 'request'}-${index}`;
           const isExpanded = expandedId === rowId;
           const method = (request.method || 'GET').toLowerCase();
-          const path = getPathname(request.url);
+          const path = getPathname(request.url, t);
           const hostname = getHostname(request.url);
 
           return (
@@ -165,12 +165,12 @@ const NetworkTab = ({ requests, isConnected }) => {
                 <div className="request-main">
                   <div className="request-primary mono-text">{path}</div>
                   <div className="request-secondary">
-                    <span>{hostname || 'Unknown host'}</span>
+                    <span>{hostname || t('network.unknownHost')}</span>
                     <span className="request-dot" />
                     <span>
                       {request.timestamp
-                        ? new Date(request.timestamp).toLocaleTimeString('en-US', { hour12: false })
-                        : 'No time'}
+                        ? new Date(request.timestamp).toLocaleTimeString(locale, { hour12: false })
+                        : t('common.noTime')}
                     </span>
                   </div>
                 </div>
@@ -184,35 +184,35 @@ const NetworkTab = ({ requests, isConnected }) => {
                   <section className="detail-block">
                     <div className="detail-header">
                       <div>
-                        <span className="detail-title">Payload</span>
-                        <span className="detail-subtitle">Request body</span>
+                        <span className="detail-title">{t('network.payload')}</span>
+                        <span className="detail-subtitle">{t('network.requestBody')}</span>
                       </div>
                       <button
                         className={`copy-button ${copiedSection === `${rowId}-payload` ? 'copied' : ''}`}
                         onClick={() => copyText(request.payload, `${rowId}-payload`, setCopiedSection)}
                       >
                         {copiedSection === `${rowId}-payload` ? <Check size={14} /> : <Copy size={14} />}
-                        <span>{copiedSection === `${rowId}-payload` ? 'Copied' : 'Copy'}</span>
+                        <span>{copiedSection === `${rowId}-payload` ? t('common.copied') : t('common.copy')}</span>
                       </button>
                     </div>
-                    <pre className="mono-text">{formatJson(request.payload) || 'No payload'}</pre>
+                    <pre className="mono-text">{formatJson(request.payload) || t('network.noPayload')}</pre>
                   </section>
 
                   <section className="detail-block">
                     <div className="detail-header">
                       <div>
-                        <span className="detail-title">Response</span>
-                        <span className="detail-subtitle">Captured response body</span>
+                        <span className="detail-title">{t('network.response')}</span>
+                        <span className="detail-subtitle">{t('network.capturedResponse')}</span>
                       </div>
                       <button
                         className={`copy-button ${copiedSection === `${rowId}-response` ? 'copied' : ''}`}
                         onClick={() => copyText(request.response, `${rowId}-response`, setCopiedSection)}
                       >
                         {copiedSection === `${rowId}-response` ? <Check size={14} /> : <Copy size={14} />}
-                        <span>{copiedSection === `${rowId}-response` ? 'Copied' : 'Copy'}</span>
+                        <span>{copiedSection === `${rowId}-response` ? t('common.copied') : t('common.copy')}</span>
                       </button>
                     </div>
-                    <pre className="mono-text">{formatJson(request.response) || 'Response not available'}</pre>
+                    <pre className="mono-text">{formatJson(request.response) || t('network.noResponse')}</pre>
                   </section>
                 </div>
               )}
@@ -222,8 +222,9 @@ const NetworkTab = ({ requests, isConnected }) => {
 
         {filteredRequests.length === 0 && (
           <EmptyState
-            title="No requests match this view"
-            description="Use the page normally, then narrow the list with method filters or URL search when traffic starts to appear."
+            kicker={t('common.noDataYet')}
+            title={t('network.emptyTitle')}
+            description={t('network.emptyDescription')}
           />
         )}
       </div>

@@ -6,11 +6,11 @@ import EmptyState from './ui/EmptyState';
 import './ConsoleTab.css';
 
 const FILTERS = [
-  { id: 'all', label: 'All' },
-  { id: 'error', label: 'Error' },
-  { id: 'warn', label: 'Warn' },
-  { id: 'info', label: 'Info' },
-  { id: 'log', label: 'Log' },
+  { id: 'all', labelKey: 'console.filters.all' },
+  { id: 'error', labelKey: 'console.filters.error' },
+  { id: 'warn', labelKey: 'console.filters.warn' },
+  { id: 'info', labelKey: 'console.filters.info' },
+  { id: 'log', labelKey: 'console.filters.log' },
 ];
 
 const getLevelIcon = (level) => {
@@ -54,12 +54,12 @@ const stringifyPayload = (payload) => {
     .join('\n');
 };
 
-const getPreview = (payload) => {
+const getPreview = (payload, t) => {
   const text = stringifyPayload(payload).replace(/\s+/g, ' ').trim();
-  return text || 'Empty log payload';
+  return text || t('console.emptyPayload');
 };
 
-const ConsoleTab = ({ logs, isConnected }) => {
+const ConsoleTab = ({ logs, isConnected, t, locale }) => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [expandedId, setExpandedId] = useState(null);
 
@@ -74,27 +74,27 @@ const ConsoleTab = ({ logs, isConnected }) => {
 
   const summaryItems = [
     {
-      label: 'Connection',
-      value: isConnected ? 'Live' : 'Disconnected',
+      label: t('common.summaryConnection'),
+      value: isConnected ? t('common.live') : t('common.disconnected'),
       tone: isConnected ? 'success' : 'warning',
     },
-    { label: 'Visible', value: filteredLogs.length.toString() },
-    { label: 'Filter', value: activeFilter === 'all' ? 'All levels' : activeFilter.toUpperCase() },
+    { label: t('common.summaryVisible'), value: filteredLogs.length.toString() },
+    { label: t('console.summaryFilter'), value: activeFilter === 'all' ? t('console.summaryAllLevels') : t(`console.filters.${activeFilter}`) },
   ];
 
   return (
     <section className="panel-shell">
       <PanelHeader
-        eyebrow="Primary feed"
-        title={isConnected ? 'Console activity from the current page' : 'Waiting for console activity'}
-        description="Scan recent logs quickly and open an entry only when you need the full payload."
+        eyebrow={t('console.eyebrow')}
+        title={isConnected ? t('console.titleLive') : t('console.titleIdle')}
+        description={t('console.description')}
       />
 
       <SummaryBar items={summaryItems} />
 
       <div className="panel-toolbar">
         <div className="panel-toolbar-group">
-          <span className="toolbar-label">Levels</span>
+          <span className="toolbar-label">{t('console.levels')}</span>
           <div className="segmented-control">
             {FILTERS.map((filter) => (
               <button
@@ -102,7 +102,7 @@ const ConsoleTab = ({ logs, isConnected }) => {
                 className={`segment ${activeFilter === filter.id ? 'active' : ''}`}
                 onClick={() => setActiveFilter(filter.id)}
               >
-                {filter.label}
+                {t(filter.labelKey)}
               </button>
             ))}
           </div>
@@ -113,7 +113,7 @@ const ConsoleTab = ({ logs, isConnected }) => {
         {filteredLogs.map((log, index) => {
           const rowId = `${log.timestamp || 'log'}-${index}`;
           const isExpanded = expandedId === rowId;
-          const preview = getPreview(log.payload);
+          const preview = getPreview(log.payload, t);
           const formattedPayload = stringifyPayload(log.payload);
 
           return (
@@ -127,8 +127,8 @@ const ConsoleTab = ({ logs, isConnected }) => {
                   <div className="console-topline">
                     <span className="console-timestamp">
                       {log.timestamp
-                        ? new Date(log.timestamp).toLocaleTimeString('en-US', { hour12: false })
-                        : 'No time'}
+                        ? new Date(log.timestamp).toLocaleTimeString(locale, { hour12: false })
+                        : t('common.noTime')}
                     </span>
                   </div>
                   <p className="console-preview mono-text">{preview}</p>
@@ -140,7 +140,7 @@ const ConsoleTab = ({ logs, isConnected }) => {
 
               {isExpanded && (
                 <div className="console-detail">
-                  <pre className="mono-text">{formattedPayload || 'No payload'}</pre>
+                  <pre className="mono-text">{formattedPayload || t('console.noPayload')}</pre>
                 </div>
               )}
             </article>
@@ -149,8 +149,9 @@ const ConsoleTab = ({ logs, isConnected }) => {
 
         {filteredLogs.length === 0 && (
           <EmptyState
-            title="No logs match this view"
-            description="Open the page, trigger some activity, or switch the level filter to see incoming console events."
+            kicker={t('common.noDataYet')}
+            title={t('console.emptyTitle')}
+            description={t('console.emptyDescription')}
           />
         )}
       </div>

@@ -7,7 +7,7 @@ import './StashTab.css';
 
 const MAX_PREVIEW_LENGTH = 220;
 
-const StashTab = () => {
+const StashTab = ({ t, locale }) => {
   const [stashHistory, setStashHistory] = useState([]);
   const [copiedIndex, setCopiedIndex] = useState(null);
   const textareaRef = useRef(null);
@@ -87,25 +87,25 @@ const StashTab = () => {
     try {
       return new URL(url).hostname;
     } catch {
-      return 'Unknown source';
+      return t('stash.unknownSource');
     }
   };
 
   const summaryItems = [
-    { label: 'Status', value: 'Auto capture on', tone: 'success' },
-    { label: 'Saved', value: stashHistory.length.toString() },
-    { label: 'Retention', value: 'Last 10 items', tone: 'neutral' },
+    { label: t('stash.summaryStatus'), value: t('stash.autoCaptureOn'), tone: 'success' },
+    { label: t('stash.summarySaved'), value: stashHistory.length.toString() },
+    { label: t('stash.summaryRetention'), value: t('stash.lastTen'), tone: 'neutral' },
   ];
 
   return (
     <section className="panel-shell">
       <PanelHeader
-        eyebrow="Utility"
-        title="Clipboard history for quick re-use"
-        description="Keep recent copied snippets close by without competing with the main debugging feeds."
+        eyebrow={t('stash.eyebrow')}
+        title={t('stash.title')}
+        description={t('stash.description')}
         actions={
           <button className="utility-button danger" onClick={clearAll} disabled={stashHistory.length === 0}>
-            Clear all
+            {t('stash.clearAll')}
           </button>
         }
       />
@@ -125,7 +125,7 @@ const StashTab = () => {
               <div className="stash-source">
                 <span className="stash-host">{getHostname(item.url)}</span>
                 <span className="stash-time">
-                  {new Date(item.timestamp).toLocaleTimeString('en-US', { hour12: false })}
+                  {new Date(item.timestamp).toLocaleTimeString(locale, { hour12: false })}
                 </span>
               </div>
 
@@ -133,14 +133,14 @@ const StashTab = () => {
                 <button
                   className={`icon-action ${copiedIndex === index ? 'copied' : ''}`}
                   onClick={() => copyToClipboard(item.content, index)}
-                  aria-label="Copy stash item"
+                  aria-label={t('stash.copyItem')}
                 >
                   {copiedIndex === index ? <Check size={14} /> : <Copy size={14} />}
                 </button>
                 <button
                   className="icon-action delete"
                   onClick={() => deleteItem(item.id)}
-                  aria-label="Delete stash item"
+                  aria-label={t('stash.deleteItem')}
                 >
                   <Trash2 size={14} />
                 </button>
@@ -153,8 +153,9 @@ const StashTab = () => {
 
         {orderedHistory.length === 0 && (
           <EmptyState
-            title="Nothing in your stash yet"
-            description="Copy text on any page and Taillog will keep the latest entries ready for a quick paste-back."
+            kicker={t('common.noDataYet')}
+            title={t('stash.emptyTitle')}
+            description={t('stash.emptyDescription')}
           />
         )}
       </div>
