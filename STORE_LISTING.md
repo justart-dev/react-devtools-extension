@@ -2,86 +2,91 @@
 
 **[Install Taillog](https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm)**
 
----
-### Short Description (under 132 characters)
+## Short Description
+
 ```text
-See console logs and network requests in one clean panel. Built for faster frontend debugging.
+Console logs and network requests in one clean debugging panel for frontend developers.
 ```
 
-### Alternate Short Description Options
+## Alternate Short Descriptions
+
 ```text
-Clean console and network monitoring for frontend debugging without opening full DevTools.
+Inspect logs, requests, clipboard history, and React components without opening full DevTools.
 ```
 
 ```text
-Track logs, requests, clipboard snippets, and React components in a simple debugging panel.
+Clean frontend debugging with console, network, stash, and React locator tools.
 ```
 
-### Detailed Description
-```text
-Taillog is a lightweight debugging panel for frontend developers who want fast signal without a crowded DevTools workflow.
+## Detailed Description
 
-It keeps the two most useful feeds front and center:
+```text
+Taillog is a Chrome extension for frontend developers who want a faster, cleaner debugging workflow.
+
+It keeps the most important signals front and center:
 - Console logs
 - Network requests
 
-You can scan activity quickly, filter what matters, and expand only the entries you want to inspect.
+You can scan activity quickly in the popup, then open a standalone window when you need a wider workspace.
 
-Why teams install Taillog
-- Cleaner first view for everyday debugging
-- Faster scanning of recent logs and requests
-- Simple payload and response inspection
-- Useful side tools without cluttering the main workflow
-- Local-first behavior with no external data transfer
+Why developers use Taillog
+- Cleaner first view than a full DevTools workflow
+- Fast scanning for recent logs and requests
+- Inline payload and response inspection
+- Clipboard history and React locator as supporting tools
+- English and Korean UI support with saved preferences
+- Local-first storage with no external sync
 
 Main features
 
 Console
-- Monitor console.log, info, warn, and error events in real time
-- Filter by level with a simple segmented control
-- Expand entries only when you need full payload details
-- Read JSON and structured logs in a cleaner format
+- Real-time log monitoring for log, info, warn, and error
+- Simple level filters
+- Expand only the entries you want to inspect
 
 Network
-- Watch fetch and XMLHttpRequest traffic in real time
-- Filter by method and search by URL or path
-- Keep payload and response details one click away
-- Copy request or response data quickly when sharing issues
+- Real-time fetch and XHR monitoring
+- Method filters and URL/path search
+- Inline payload and response detail views
+- One-click copy for request and response data
 
 Stash
-- Save recent copied text automatically
-- Re-copy useful snippets without leaving the page
-- Keep a lightweight clipboard history for debugging tasks
+- Automatically keeps copied text history
+- Re-copy useful snippets quickly
+- Keeps recent debugging text close by
 
 Locator
-- Hover React components with Alt or Option to inspect them
-- Click to open source in your preferred IDE when metadata is available
-- Works best in development environments
+- Inspect React components with Alt or Option
+- Open source in your preferred editor when metadata is available
+- Keeps preferred editor and enabled state saved locally
 
-Built for frontend debugging
-Taillog is especially useful when you are working on React apps, API-heavy pages, and fast iteration loops where opening full DevTools feels like too much overhead.
+Extra workflow support
+- Remembers the last opened tab
+- Supports English and Korean
+- Offers a separate responsive window mode for wider layouts
 
 Privacy
 - All captured data stays on your device
 - No account required
-- No external server sync
+- No remote sync
 
-If you want a clean debugging companion focused on the signals you check most often, Taillog is built for that workflow.
+If you want a lightweight debugging companion focused on the signals you check most often, Taillog is built for that workflow.
 ```
 
-### Store Positioning Notes
-- Lead with `Console + Network` as the primary value.
-- Mention `Stash` and `Locator` as supporting tools, not equal headline features.
-- Avoid promising zero configuration for Locator unless that is consistently true across environments.
-- Keep the tone practical and product-focused rather than feature-dump heavy.
+## Positioning Notes
 
----
+- Lead with `Console + Network` as the core value.
+- Present `Stash` and `Locator` as secondary utilities.
+- Mention localization and separate window mode as product polish points.
+- Keep copy practical and workflow-focused.
 
-## Suggested Store Metadata
+## Suggested Metadata
+
 - Category: `Developer Tools`
-- Primary keywords: `console logger`, `network logger`, `frontend debugging`, `react debugging`, `developer tools`
+- Keywords: `console logger`, `network logger`, `frontend debugging`, `react debugging`, `chrome extension`
 - Positioning line: `A clean debugging panel for frontend developers`
 
 ## Links
+
 - Chrome Web Store: https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm
 - GitHub: https://github.com/justart-dev/react-devtools-extension

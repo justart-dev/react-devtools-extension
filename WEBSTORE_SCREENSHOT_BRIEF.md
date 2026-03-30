@@ -1,70 +1,81 @@
 # Chrome Web Store Screenshot Brief
 
 ## Goal
-- Make the store page communicate one message in under 5 seconds:
-  `Taillog gives frontend developers a cleaner way to inspect console logs and network requests.`
+
+Make the product message clear in a few seconds:
+
+`Taillog helps frontend developers inspect console logs and network requests in a cleaner popup workflow.`
 
 ## Visual Direction
-- Use the new minimal dark UI, not the older character-heavy empty states.
-- Keep backgrounds dark and neutral.
-- Use short headlines with strong contrast.
-- Highlight density, readability, and focus.
-- Avoid trying to show every feature in every screenshot.
+
+- Use the current minimal dark UI
+- Show real data, not empty states
+- Keep copy short and product-focused
+- Use the standalone window mode for cleaner framing on wider shots
 
 ## Shot List
 
 ### Screenshot 1
-- Headline: `Console and Network in one clean panel`
-- Show: the main shell with `Network` active and visible request rows
+- Headline: `Console and Network in one panel`
+- Show: the main shell with `Network` active
+- Include: top app header, connection status, summary chips, filters, request rows
 - Purpose: explain the product immediately
-- Composition: top nav, live status, filters, and 5-8 readable request items
 
 ### Screenshot 2
-- Headline: `Scan requests faster`
-- Show: dense network list with method chips, status codes, search, and one expanded request
-- Purpose: prove that the request view is readable and useful
-- Composition: include payload/response area, but keep list dominant
+- Headline: `Inspect requests without full DevTools`
+- Show: `Network` tab with one expanded request
+- Include: method filter, search input, payload and response detail
+- Purpose: show the main workflow in detail
 
 ### Screenshot 3
-- Headline: `Catch errors without opening full DevTools`
-- Show: `Console` tab with mixed log levels and one expanded structured log
-- Purpose: show that console inspection is the second core workflow
-- Composition: include filter segment and several recent entries
+- Headline: `Catch logs faster`
+- Show: `Console` tab with mixed log levels
+- Include: level filter and one expanded structured log
+- Purpose: show the second core workflow
 
 ### Screenshot 4
-- Headline: `Keep useful snippets close`
-- Show: `Stash` tab with 3-4 clean clipboard entries
-- Purpose: position Stash as a lightweight supporting utility
-- Composition: source badge, timestamp, short preview, copy action
+- Headline: `Keep copied snippets nearby`
+- Show: `Stash` tab with several saved clipboard items
+- Include: source badge, time, preview text, copy action
+- Purpose: present Stash as a useful secondary tool
 
 ### Screenshot 5
-- Headline: `Jump from React component to source`
-- Show: `Locator` tab with the simplified settings UI
-- Purpose: communicate the React-specific utility without overpowering the core product
-- Composition: status toggle, editor selection, short usage guide
+- Headline: `Jump from component to source`
+- Show: `Locator` tab with editor options and usage info
+- Include: toggle, preferred editor, guidance cards
+- Purpose: highlight the React-specific utility
+
+### Screenshot 6
+- Headline: `Switch languages and keep your setup`
+- Show: popup or standalone view with the language switcher visible
+- Include: EN/KO switcher and a non-default tab selected
+- Purpose: communicate polish features like localization and saved state
 
 ## Caption Rules
-- Keep each headline under 8 words when possible.
-- Use one promise per screenshot.
-- Prefer workflow language over feature names.
-- Good: `Scan requests faster`
-- Weak: `Network tab with GET POST filters and copy button`
+
+- One message per screenshot
+- Prefer workflow language over raw feature lists
+- Keep headlines short, ideally under 8 words
 
 ## Capture Checklist
-- Use realistic demo data, not empty screens.
-- Avoid overly long URLs that wrap awkwardly unless they prove truncation/readability.
-- Make sure timestamps, status codes, and filter states are visible.
-- Keep one expanded detail per screenshot at most.
-- Use the standalone window size for cleaner framing.
 
-## Suggested Screenshot Order In Store
+- Use realistic request and log data
+- Keep one expanded detail section per shot
+- Make filters and timestamps visible
+- Avoid awkward empty areas in standalone captures
+- Capture at least one wide standalone-window example
+
+## Suggested Upload Order
+
 1. Network overview
 2. Network detail
 3. Console workflow
 4. Stash utility
 5. Locator utility
+6. Language and saved state polish
 
-## Optional Promo Copy For Graphics
+## Optional Overlay Copy
+
 - `Clean debugging for frontend teams`
-- `See logs and requests at a glance`
 - `Inspect less. Find issues faster.`
+- `Logs and requests in one lightweight panel`

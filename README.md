@@ -1,158 +1,118 @@
-# Taillog - Console & Network Logger
+# Taillog
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/nomgkaaaojblgcgkmiepaaggbfpeeobm)](https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A lightweight Chrome extension for web developers to monitor console logs, network requests, and manage clipboard history. Debug faster without opening DevTools!
+Taillog is a Chrome extension for frontend debugging. It keeps console logs, network requests, clipboard history, and a React component locator in a lightweight popup UI, with a separate window mode when you need more space.
 
 **[Install from Chrome Web Store](https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm)**
 
+## Highlights
+
+- Clean popup UI focused on `Console` and `Network`
+- English by default, with Korean support
+- Language preference and last-opened tab persist across popup sessions
+- Separate window mode with wider responsive layouts
+- Local-first behavior with no external sync
+
 ## Features
 
-### Console Tab
-- Real-time monitoring of `console.log`, `error`, `warn`, `info` messages
-- Filter logs by type
-- Auto-formatted JSON for better readability
+### Console
+- Monitor `console.log`, `info`, `warn`, and `error` events in real time
+- Filter by level with a segmented control
+- Expand entries only when you need the full payload
 
-### Network Tab
-- Monitor `fetch` and `XMLHttpRequest` calls in real-time
-- Filter by HTTP methods (GET, POST, PUT, DELETE)
-- Search requests by URL
-- One-click copy for Payload and Response data
-- **Smart Capture**: Automatically handles large responses (>100KB truncated) to prevent browser freezing
+### Network
+- Watch `fetch` and `XMLHttpRequest` traffic in real time
+- Filter by HTTP method and search by URL or path
+- Inspect payload and response data inline
+- Copy payload or response content quickly
 
-### Performance & Safety
-- **Circuit Breaker**: Automatically pauses capturing if too many errors occur
-- **Rate Limiting**: Prevents flooding from excessive network requests
-- **Optimized**: Ignores heavy assets (min.js, images, binary files) for smooth performance
+### Stash
+- Save copied text automatically
+- Re-copy recent snippets without leaving the page
+- Keep the latest clipboard history close by while debugging
 
-### Stash Tab
-- Automatically captures copied text
-- View clipboard history at a glance
-- Re-copy with a single click
+### Locator
+- Inspect React components with `Alt/Option + Hover`
+- Open source in your preferred editor when source metadata is available
+- Store preferred editor and enabled state locally
 
-### Locator (React Component Inspector)
-- **Alt (Option) + Hover**: Highlight React components and see component name with source location
-- **Alt (Option) + Click**: Open the component source file directly in your IDE
-- Supported IDEs: VSCode, Cursor, Windsurf, IntelliJ IDEA, Antigravity
+## Localization
 
-## Notice: Component Locator Requirements
+Taillog supports:
 
-The **Locator** feature requires `_debugSource` information embedded in React components. This is only available in **development builds** with proper configuration.
+- English
+- Korean
 
-### Works Out of the Box
-| Framework | Condition |
-|-----------|-----------|
-| **Create React App** | Development mode (`npm start`) |
-| **Next.js** | Development mode (`npm run dev`) |
-| **Remix** | Development mode |
+The selected language is stored locally and restored when the popup opens again.
 
-### Requires Additional Configuration
+## Separate Window Mode
 
-#### Vite + React
+Use the top-right expand button in the popup to open Taillog in a standalone window.
 
-Vite does not include `_debugSource` by default. Add the Babel plugin:
+In standalone mode:
 
-1. Install the plugin:
-   ```bash
-   npm install -D @babel/plugin-transform-react-jsx-source
-   ```
-
-2. Update `vite.config.ts`:
-   ```ts
-   import { defineConfig } from 'vite'
-   import react from '@vitejs/plugin-react'
-
-   export default defineConfig({
-     plugins: [
-       react({
-         babel: {
-           plugins: ['@babel/plugin-transform-react-jsx-source']
-         }
-       })
-     ]
-   })
-   ```
-
-3. Restart the dev server
-
-#### Custom Webpack Setup
-
-Add the Babel plugin to your `.babelrc` or `babel.config.js`:
-```json
-{
-  "plugins": ["@babel/plugin-transform-react-jsx-source"]
-}
-```
-
-### Does Not Work
-- **Production builds** - Source information is stripped for optimization
-- **Minified code** - Component names are mangled
-- **Server Components (RSC)** - No client-side fiber information available
-
-### Indicator Colors
-| Color | Meaning |
-|-------|---------|
-| Blue | Source available - click to open in IDE |
-| Orange | No source info - component name will be copied |
-| Gray | No React component detected |
+- the top app header stays fixed
+- the window uses the full available width
+- wider layouts are applied for `Network` details and `Locator`
 
 ## Installation
 
-### From Chrome Web Store (Recommended)
-**[Click here to install Taillog](https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm)**
+### From Chrome Web Store
 
-### Manual Installation (Developer Mode)
-1. Clone this repository
-   ```bash
-   git clone https://github.com/justart-dev/react-devtools-extension.git
-   cd react-devtools-extension
-   ```
+Install directly from the [Chrome Web Store](https://chromewebstore.google.com/detail/taillog-console-network-l/nomgkaaaojblgcgkmiepaaggbfpeeobm).
+
+### Manual Installation
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/justart-dev/react-devtools-extension.git
+cd react-devtools-extension
+```
 
 2. Install dependencies
-   ```bash
-   npm install
-   ```
+
+```bash
+npm install
+```
 
 3. Build the extension
-   ```bash
-   npm run build
-   ```
 
-4. Load in Chrome
-   - Open `chrome://extensions/`
-   - Enable "Developer mode"
-   - Click "Load unpacked"
-   - Select the `dist` folder
+```bash
+npm run build
+```
+
+4. Load the built extension
+- Open `chrome://extensions/`
+- Enable `Developer mode`
+- Click `Load unpacked`
+- Select the `dist` folder
 
 ## Development
 
 ```bash
-# Install dependencies
 npm install
-
-# Run development server
 npm run dev
-
-# Build for production
 npm run build
 ```
 
 ## Privacy
 
 Taillog respects your privacy:
-- All data is stored locally on your device
+
+- All captured data stays on your device
 - No data is transmitted to external servers
-- No personal information is collected
+- No account is required
 
-See [Privacy Policy](PRIVACY_POLICY_EN.md) for more details.
-
-See [개인정보처리방침](PRIVACY_POLICY_KO.md) for more details.
+See [PRIVACY_POLICY_EN.md](PRIVACY_POLICY_EN.md) and [PRIVACY_POLICY_KO.md](PRIVACY_POLICY_KO.md) for details.
 
 ## License
 
-MIT License
+MIT
 
 ## Contact
-Email: hbd9425@gmail.com
 
+- Email: `hbd9425@gmail.com`
+- Repository: `https://github.com/justart-dev/react-devtools-extension`
