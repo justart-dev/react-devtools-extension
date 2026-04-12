@@ -12,6 +12,12 @@ import NetworkTab from './components/NetworkTab';
 import StashTab from './components/StashTab';
 import LocatorTab from './components/LocatorTab';
 import { defaultLanguage, getLocale, supportedLanguages, translate } from './i18n';
+import {
+  previewLocatorSettings,
+  previewLogs,
+  previewRequests,
+  previewStashHistory,
+} from './storePreview';
 import './App.css';
 
 const PRIMARY_TABS = [
@@ -27,19 +33,31 @@ const UTILITY_TABS = [
 const TAB_IDS = [...PRIMARY_TABS, ...UTILITY_TABS].map((tab) => tab.id);
 
 function App() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const isStorePreview = searchParams.get('preview') === 'store';
+  const previewTab = searchParams.get('tab');
+  const previewLanguage = searchParams.get('lang');
   const [activeTab, setActiveTab] = useState(() => {
+    if (isStorePreview && TAB_IDS.includes(previewTab)) {
+      return previewTab;
+    }
+
     const savedTab = window.localStorage.getItem('activeTabPreference');
     return TAB_IDS.includes(savedTab) ? savedTab : 'network';
   });
-  const [logs, setLogs] = useState([]);
-  const [requests, setRequests] = useState([]);
-  const [isConnected, setIsConnected] = useState(false);
+  const [logs, setLogs] = useState(() => (isStorePreview ? previewLogs : []));
+  const [requests, setRequests] = useState(() => (isStorePreview ? previewRequests : []));
+  const [isConnected, setIsConnected] = useState(() => isStorePreview);
   const [language, setLanguage] = useState(() => {
+    if (isStorePreview && (previewLanguage === 'ko' || previewLanguage === 'en')) {
+      return previewLanguage;
+    }
+
     const savedLanguage = window.localStorage.getItem('languagePreference');
     return savedLanguage === 'ko' || savedLanguage === 'en' ? savedLanguage : defaultLanguage;
   });
-  const [languageReady, setLanguageReady] = useState(() => !globalThis.chrome?.storage?.local);
-  const [tabReady, setTabReady] = useState(() => !globalThis.chrome?.storage?.local);
+  const [languageReady, setLanguageReady] = useState(() => isStorePreview || !globalThis.chrome?.storage?.local);
+  const [tabReady, setTabReady] = useState(() => isStorePreview || !globalThis.chrome?.storage?.local);
 
   const isStandaloneWindow = window.location.search.includes('window=true');
   const extensionChrome = globalThis.chrome;
@@ -63,6 +81,10 @@ function App() {
   }, [language]);
 
   useEffect(() => {
+    if (isStorePreview) {
+      return;
+    }
+
     if (!extensionChrome?.storage?.local) {
       return;
     }
@@ -78,9 +100,13 @@ function App() {
       }
       setTabReady(true);
     });
-  }, [extensionChrome]);
+  }, [extensionChrome, isStorePreview]);
 
   useEffect(() => {
+    if (isStorePreview) {
+      return;
+    }
+
     if (!languageReady) {
       return;
     }
@@ -91,9 +117,13 @@ function App() {
     }
 
     window.localStorage.setItem('languagePreference', language);
-  }, [extensionChrome, language, languageReady]);
+  }, [extensionChrome, isStorePreview, language, languageReady]);
 
   useEffect(() => {
+    if (isStorePreview) {
+      return;
+    }
+
     if (!tabReady) {
       return;
     }
@@ -104,7 +134,7 @@ function App() {
     }
 
     window.localStorage.setItem('activeTabPreference', activeTab);
-  }, [activeTab, extensionChrome, tabReady]);
+  }, [activeTab, extensionChrome, isStorePreview, tabReady]);
 
   const openInWindow = () => {
     if (extensionChrome?.windows) {
@@ -119,6 +149,10 @@ function App() {
   };
 
   useEffect(() => {
+    if (isStorePreview) {
+      return;
+    }
+
     if (!extensionChrome?.runtime?.connect) {
       return;
     }
@@ -157,7 +191,7 @@ function App() {
     });
 
     return () => cleanup?.();
-  }, [extensionChrome]);
+  }, [extensionChrome, isStorePreview]);
 
   const counts = useMemo(
     () => ({
@@ -174,9 +208,9 @@ function App() {
       case 'network':
         return <NetworkTab requests={requests} isConnected={isConnected} t={t} locale={locale} />;
       case 'stash':
-        return <StashTab t={t} locale={locale} />;
+        return <StashTab t={t} locale={locale} previewHistory={isStorePreview ? previewStashHistory : null} />;
       case 'locator':
-        return <LocatorTab t={t} />;
+        return <LocatorTab t={t} previewSettings={isStorePreview ? previewLocatorSettings : null} />;
       default:
         return null;
     }

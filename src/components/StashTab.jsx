@@ -7,13 +7,17 @@ import './StashTab.css';
 
 const MAX_PREVIEW_LENGTH = 220;
 
-const StashTab = ({ t, locale }) => {
-  const [stashHistory, setStashHistory] = useState([]);
+const StashTab = ({ t, locale, previewHistory = null }) => {
+  const [stashHistory, setStashHistory] = useState(previewHistory || []);
   const [copiedIndex, setCopiedIndex] = useState(null);
   const textareaRef = useRef(null);
   const extensionChrome = globalThis.chrome;
 
   useEffect(() => {
+    if (previewHistory) {
+      return;
+    }
+
     if (!extensionChrome?.storage) {
       return;
     }
@@ -35,7 +39,7 @@ const StashTab = ({ t, locale }) => {
     return () => {
       extensionChrome.storage.onChanged.removeListener(storageListener);
     };
-  }, [extensionChrome]);
+  }, [extensionChrome, previewHistory]);
 
   const orderedHistory = useMemo(
     () =>

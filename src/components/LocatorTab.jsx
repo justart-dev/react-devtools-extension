@@ -12,19 +12,21 @@ const IDES = [
   { id: 'antigravity', name: 'Antigravity' },
 ];
 
-const LocatorTab = ({ t }) => {
-  const [preferredIDE, setPreferredIDE] = useState('vscode');
-  const [isEnabled, setIsEnabled] = useState(true);
+const LocatorTab = ({ t, previewSettings = null }) => {
+  const [preferredIDE, setPreferredIDE] = useState(previewSettings?.preferredIDE || 'vscode');
+  const [isEnabled, setIsEnabled] = useState(previewSettings?.isEnabled ?? true);
   const extensionChrome = globalThis.chrome;
 
   useEffect(() => {
+    if (previewSettings) return;
+
     if (!extensionChrome?.storage) return;
 
     extensionChrome.storage.local.get(['preferredIDE', 'locatorEnabled'], (result) => {
       if (result.preferredIDE) setPreferredIDE(result.preferredIDE);
       if (result.locatorEnabled !== undefined) setIsEnabled(result.locatorEnabled);
     });
-  }, [extensionChrome]);
+  }, [extensionChrome, previewSettings]);
 
   const handleIDEChange = (ide) => {
     setPreferredIDE(ide);
@@ -121,6 +123,19 @@ const LocatorTab = ({ t }) => {
               <strong>{t('locator.unavailableValue')}</strong>
             </div>
           </div>
+        </div>
+
+        <div className="locator-card compact feedback-card">
+          <div className="section-heading">
+            <span>{t('locator.feedbackTitle')}</span>
+          </div>
+          <p>{t('locator.feedbackDescription')}</p>
+          <a
+            className="feedback-link"
+            href={`mailto:hbd9425@gmail.com?subject=${encodeURIComponent('Taillog feedback')}`}
+          >
+            {t('locator.feedbackAction')}
+          </a>
         </div>
       </div>
     </section>
